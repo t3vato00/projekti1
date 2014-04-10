@@ -30,27 +30,27 @@ void rfid_reader::tick()
 {
     if(ending)
     {
-        serialPort.read(8);
+        serialPort.read(10);
         timer.stop();
         closeCOMPort();
     }
     if(!first)
     {
         QString hexNum, cardSerialNumber;
-        char data[9], temp[9];
+        char data[11], temp[11];
         int bytesRead;
 
-        bytesRead = serialPort.read(data,8);
+        bytesRead = serialPort.read(data,10);
         data[bytesRead] = '\0';
         if (bytesRead > 0)
         {
-            for(int i=0;i<=7;i++)
+            for(int i=0;i<10;i++)
             {
                 sprintf(temp,"%08X", data[i]);
                 hexNum = temp;
                 cardSerialNumber = cardSerialNumber + hexNum.right(2);
             }
-           if(cardSerialNumber=="8000ADB54C000000")
+           if(cardSerialNumber.at(0)==QChar('8'))
            {
                cardSerialNumber = "";
            }
