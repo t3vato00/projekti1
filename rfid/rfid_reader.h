@@ -2,7 +2,7 @@
 #define RFID_READER_H
 #include <QThread>
 #include <QTimer>
-#include "qextserialport.h"
+#include "qextserial/qextserialport.h"
 
 class rfid_reader : public QObject
 {

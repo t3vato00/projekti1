@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>mainmenu</class>
+ <widget class="QDialog" name="mainmenu">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1140</width>
+    <height>609</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QLabel" name="label_kuva1">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>160</y>
+     <width>53</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>kuva1</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_kuva2">
+   <property name="geometry">
+    <rect>
+     <x>378</x>
+     <y>250</y>
+     <width>53</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>kuva2</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_kuva3">
+   <property name="geometry">
+    <rect>
+     <x>381</x>
+     <y>339</y>
+     <width>53</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>kuva3</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_myynti">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>150</y>
+     <width>150</width>
+     <height>60</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>sale</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_product">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>240</y>
+     <width>150</width>
+     <height>60</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Tuotehallinta</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_kt_hallinta">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>320</y>
+     <width>150</width>
+     <height>60</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Käyttäjien hallinta</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
