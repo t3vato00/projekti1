@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent)
 {
    login_page = new loginpage();
    mainpage = new mainmenu();
-   tuote = new product();
+   tuote = new product_management();
    myynti = new sale();
    kayttajat = new user();
 
