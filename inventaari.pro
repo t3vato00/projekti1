@@ -20,7 +20,8 @@ SOURCES += main.cpp \
     ui/products/product_management.cpp \
     db/products/product_model.cpp \
     ui/sales/sale.cpp \
-    ui/users/user.cpp
+    ui/users/user.cpp \
+    db/products/product.cpp
 
 HEADERS  += \
     ui/mainwindow.h \
@@ -30,7 +31,8 @@ HEADERS  += \
     ui/products/product_management.h \
     db/products/product_model.h \
     ui/sales/sale.h \
-    ui/users/user.h
+    ui/users/user.h \
+    db/products/product.h
 
 RESOURCES += \
     resource.qrc
