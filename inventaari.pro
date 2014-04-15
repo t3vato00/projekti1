@@ -42,8 +42,7 @@ FORMS += \
     ui/mainmenu/mainmenu.ui \
     ui/login/loginpage.ui \
     ui/sales/sale.ui \
-    ui/users/user.ui \
-    ui/login/loginpage.ui
+    ui/users/user.ui
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../build-qextserialport-Desktop_Qt_5_2_1_MinGW_32bit-Release/release/ -lQt5ExtSerialPort1
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../build-qextserialport-Desktop_Qt_5_2_1_MinGW_32bit-Release/debug/ -lQt5ExtSerialPort1
