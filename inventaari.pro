@@ -20,7 +20,8 @@ SOURCES += main.cpp \
     ui/products/product_management.cpp \
     db/products/product_model.cpp \
     ui/sales/sale.cpp \
-    ui/users/user.cpp
+    ui/users/user.cpp \
+    db/products/product.cpp
 
 HEADERS  += \
     ui/mainwindow.h \
@@ -30,7 +31,8 @@ HEADERS  += \
     ui/products/product_management.h \
     db/products/product_model.h \
     ui/sales/sale.h \
-    ui/users/user.h
+    ui/users/user.h \
+    db/products/product.h
 
 RESOURCES += \
     resource.qrc
@@ -40,7 +42,8 @@ FORMS += \
     ui/mainmenu/mainmenu.ui \
     ui/login/loginpage.ui \
     ui/sales/sale.ui \
-    ui/users/user.ui
+    ui/users/user.ui \
+    ui/login/loginpage.ui
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../build-qextserialport-Desktop_Qt_5_2_1_MinGW_32bit-Release/release/ -lQt5ExtSerialPort1
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../build-qextserialport-Desktop_Qt_5_2_1_MinGW_32bit-Release/debug/ -lQt5ExtSerialPort1

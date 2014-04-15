@@ -21,11 +21,21 @@ sale::sale(QWidget *parent) :
     ui->setupUi(this);
     row_number=ostokset_yhteensa=0;
     tuote_hinta = 10;
+    set_wordlist();
 }
 
 sale::~sale()
 {
     delete ui;
+}
+
+void sale::set_wordlist(){
+
+    QSqlQuery query;
+    query.exec("select name from products");
+    while (query.next())
+        product_wordlist << query.value(0).toString();
+
 }
 
 void sale::on_pushButton_lisaa_tuote_clicked()
@@ -80,28 +90,14 @@ void sale::on_lineEdit_m_maara_textChanged(const QString &maara)
 
     int tuote_hinta_yhteensa= tuote_hinta* maara.toInt();
     ui->label_tuotehinta_yhteensa->setText(QString::number(tuote_hinta_yhteensa)+ " €");
-
-
-    QSqlQuery query;
-    query.exec("select * from products");
-
-    while (query.next()) {
-        QString name = query.value(0).toString();
-        qDebug() << "name:" << name;
-    }
 }
 
 void sale::on_lineEdit_m_nimi_textChanged(const QString &arg1)
 {
-
-    QStringList wordList;
-    wordList << "Banaani" << "Omena" << "Päärynä" << "Appelsiini" << "Oliivi";
-
-    QCompleter *completer = new QCompleter(wordList, this);
+    QCompleter *completer = new QCompleter(product_wordlist, this);
     completer->setCompletionMode(QCompleter::InlineCompletion);
     completer->setCaseSensitivity(Qt::CaseInsensitive);
     ui->lineEdit_m_nimi->setCompleter(completer);
-
 }
 
 void sale::on_lineEdit_m_nimi_editingFinished()

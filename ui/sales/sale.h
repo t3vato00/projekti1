@@ -30,6 +30,8 @@ private slots:
 private:
     Ui::sale *ui;
     QSqlTableModel* product;
+    QStringList product_wordlist;
+    void set_wordlist();
     int row_number;
     int ostokset_yhteensa;
     int tuote_hinta;
