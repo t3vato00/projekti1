@@ -2,6 +2,7 @@
 #define PRODUCT_MANAGEMENT_H
 
 #include <QWidget>
+#include <QSqlQuery>
 #include <db/products/product_model.h>
 
 namespace Ui {
@@ -25,6 +26,7 @@ private slots:
 private:
 	Ui::product_management *ui;
 	product_model model;
+	QSqlQuery insert;
 };
 
 #endif // PRODUCT_MANAGEMENT_H
