@@ -35,11 +35,8 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent)
    setFixedHeight(800);
    setFixedWidth(1200);
    setCentralWidget(stackedWidget);
-<<<<<<< HEAD
-=======
-
->>>>>>> pekka/master
 }
+
 MainWindow::~MainWindow()
 {
     delete login_page;
