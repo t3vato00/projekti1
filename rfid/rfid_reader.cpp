@@ -4,8 +4,6 @@ rfid_reader::rfid_reader(QString pPort)
 {
     portName = pPort;
     connect(&timer, SIGNAL(timeout()),this,SLOT(tick()));
-
-
 }
 
 bool rfid_reader::openCOMPort()
