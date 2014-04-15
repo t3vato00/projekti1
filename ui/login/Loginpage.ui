@@ -26,6 +26,19 @@
     <string>Login</string>
    </property>
   </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>190</y>
+     <width>81</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Näytä korttia</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>
