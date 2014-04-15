@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "rfid/rfid_reader.h"
 
 rfid_reader::rfid_reader(QString pPort)
