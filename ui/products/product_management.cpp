@@ -53,7 +53,7 @@ add_product()
 	QString name = normalize_string_input(ui->addName->text());
 	QString priceStr = normalize_string_input(ui->addPrice->text());
 	QString stockStr = normalize_string_input(ui->addStock->text());
-	if(code.length() != 12)
+	if(product::check_barcode(code))
 	{
 		invalid_value( "Invalid code '" + code + "'." );
 		return;
