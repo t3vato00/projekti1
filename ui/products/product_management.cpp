@@ -10,6 +10,7 @@ product_management(QWidget *parent) :
 	 insert()
 {
 	ui->setupUi(this);
+	ui->productView->setModel(&model);
 	insert.prepare("INSERT INTO products(code, name, price, stock) VALUES(?,?,?,?);");
 }
 
