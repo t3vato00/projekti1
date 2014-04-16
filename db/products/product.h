@@ -7,10 +7,9 @@ class product
 {
 public:
     product();
-    //product(QString arg1,QString arg2, double arg3, int arg4)
     ~product(){}
-
-private:
+    void set_data(QString);
+//private:
     QString code;
     QString name;
     double price;

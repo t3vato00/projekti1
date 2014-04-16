@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui sql
+ QMAKE_CXXFLAGS += -std=c++11
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -21,7 +22,9 @@ SOURCES += main.cpp \
     db/products/product_model.cpp \
     ui/sales/sale.cpp \
     ui/users/user.cpp \
-    db/products/product.cpp
+    db/products/product.cpp \
+    db/sales/sales_row.cpp \
+    db/sales/sales_event.cpp
 
 HEADERS  += \
     ui/mainwindow.h \
@@ -32,7 +35,9 @@ HEADERS  += \
     db/products/product_model.h \
     ui/sales/sale.h \
     ui/users/user.h \
-    db/products/product.h
+    db/products/product.h \
+    db/sales/sales_row.h \
+    db/sales/sales_event.h
 
 RESOURCES += \
     resource.qrc

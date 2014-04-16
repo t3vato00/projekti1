@@ -32,8 +32,8 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent)
    QObject::connect(mainpage, SIGNAL(send_page_index(int)),stackedWidget, SLOT(setCurrentIndex(int)));
    QObject::connect(this, SIGNAL(ToMain_signal(int)),stackedWidget, SLOT(setCurrentIndex(int)));
 
-   setFixedHeight(800);
-   setFixedWidth(1200);
+   //setFixedHeight(800);
+   //setFixedWidth(1200);
    setCentralWidget(stackedWidget);
 }
 

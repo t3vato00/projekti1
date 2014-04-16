@@ -3,6 +3,9 @@
 
 #include <QDialog>
 #include <QtSql/QSqlTableModel>
+#include "db/products/product.h"
+#include "db/sales/sales_row.h"
+#include <QVector>
 
 namespace Ui {
 class sale;
@@ -27,14 +30,24 @@ private slots:
 
     void on_lineEdit_m_nimi_editingFinished();
 
+    void on_lineEdit_clear_clicked();
+
+    void on_myy_clicked();
+
 private:
     Ui::sale *ui;
-    QSqlTableModel* product;
     QStringList product_wordlist;
-    void set_wordlist();
     int row_number;
-    int ostokset_yhteensa;
-    int tuote_hinta;
+    int total_price;
+    int product_price;
+    QString current_product_name;
+    product* new_product;
+    QVector<sales_row> sales_list;
+
+    void clear_lineEdits();
+    void set_wordlist();
+    void add_row_to_list();
+
 };
 
 #endif // MYYNTI_H
