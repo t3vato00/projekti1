@@ -1,11 +1,8 @@
 #include "product.h"
 
-product::product()
-{
-}
 bool product::check_barcode()
 {
-	return product::check_barcode(code);
+	return product::check_barcode(_code);
 }
 
 bool product::check_barcode(QString barcode)
