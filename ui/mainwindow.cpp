@@ -12,9 +12,11 @@
 
 MainWindow::MainWindow(QWidget *parent):QMainWindow(parent)
 {
+   createConnection();
+
    login_page = new loginpage();
    mainpage = new mainmenu();
-   tuote = new product();
+   tuote = new product_management();
    myynti = new sale();
    kayttajat = new user();
 
@@ -33,8 +35,8 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent)
    setFixedHeight(800);
    setFixedWidth(1200);
    setCentralWidget(stackedWidget);
-   createConnection();
 }
+
 MainWindow::~MainWindow()
 {
     delete login_page;

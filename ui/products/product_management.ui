@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>product_management</class>
+ <widget class="QWidget" name="product_management">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>921</width>
+    <height>474</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <layout class="QGridLayout" name="gridLayout_2" columnstretch="0,1,0,0" columnminimumwidth="30,30,30,30">
+       <item row="1" column="3">
+        <widget class="QLabel" name="labelStock_2">
+         <property name="text">
+          <string>stock</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QLabel" name="labelPrice_2">
+         <property name="text">
+          <string>price</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLabel" name="labelName_2">
+         <property name="text">
+          <string>name</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLineEdit" name="filterCode"/>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="filterName"/>
+       </item>
+       <item row="2" column="2">
+        <widget class="QLineEdit" name="filterPrice"/>
+       </item>
+       <item row="2" column="3">
+        <widget class="QLineEdit" name="filterStock"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="labelCode_2">
+         <property name="text">
+          <string>code</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QPushButton" name="clearFilter">
+         <property name="text">
+          <string>Clear</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="filter">
+         <property name="text">
+          <string>Filter</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QTableView" name="tableView"/>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <layout class="QGridLayout" name="gridLayout" columnstretch="0,1,0,0" columnminimumwidth="30,30,30,30">
+       <item row="1" column="3">
+        <widget class="QLabel" name="labelStock">
+         <property name="text">
+          <string>stock</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QLabel" name="labelPrice">
+         <property name="text">
+          <string>price</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLabel" name="labelName">
+         <property name="text">
+          <string>name</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLineEdit" name="addCode"/>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="addName"/>
+       </item>
+       <item row="2" column="2">
+        <widget class="QLineEdit" name="addPrice"/>
+       </item>
+       <item row="2" column="3">
+        <widget class="QLineEdit" name="addStock"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="labelCode">
+         <property name="text">
+          <string>code</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QPushButton" name="clearAdd">
+         <property name="text">
+          <string>Clear</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="add">
+         <property name="text">
+          <string>Add</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>filter</sender>
+   <signal>clicked()</signal>
+   <receiver>product_management</receiver>
+   <slot>update_filter()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>869</x>
+     <y>49</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>460</x>
+     <y>236</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>clearFilter</sender>
+   <signal>clicked()</signal>
+   <receiver>product_management</receiver>
+   <slot>clear_filter()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>869</x>
+     <y>21</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>460</x>
+     <y>236</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>add</sender>
+   <signal>clicked()</signal>
+   <receiver>product_management</receiver>
+   <slot>add_product()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>869</x>
+     <y>451</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>460</x>
+     <y>236</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>clearAdd</sender>
+   <signal>clicked()</signal>
+   <receiver>product_management</receiver>
+   <slot>clear_add()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>869</x>
+     <y>423</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>460</x>
+     <y>236</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>update_filter()</slot>
+  <slot>add_product()</slot>
+  <slot>clear_filter()</slot>
+  <slot>clear_add()</slot>
+ </slots>
+</ui>
