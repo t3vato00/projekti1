@@ -49,7 +49,7 @@ FORMS += \
     ui/sales/sale.ui \
     ui/users/user.ui
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../build-qextserialport-Desktop_Qt_5_2_1_MinGW_32bit-Release/release/ -lQt5ExtSerialPort1
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../build-inventaari-Desktop_Qt_5_2_1_MinGW_32bit-Debug/release/ -lQt5ExtSerialPort1
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../build-qextserialport-Desktop_Qt_5_2_1_MinGW_32bit-Release/debug/ -lQt5ExtSerialPort1
 else:unix: LIBS += -L$$PWD/../build-qextserialport/ -lQt5ExtSerialPort
 

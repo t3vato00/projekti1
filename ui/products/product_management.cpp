@@ -2,6 +2,7 @@
 #include <QSqlError>
 #include "product_management.h"
 #include "ui_product_management.h"
+#include "../db/products/product.h"
 
 product_management::
 product_management(QWidget *parent) :
@@ -10,6 +11,7 @@ product_management(QWidget *parent) :
 	 insert()
 {
 	ui->setupUi(this);
+	ui->productView->setModel(&model);
 	insert.prepare("INSERT INTO products(code, name, price, stock) VALUES(?,?,?,?);");
 }
 
@@ -53,7 +55,7 @@ add_product()
 	QString name = normalize_string_input(ui->addName->text());
 	QString priceStr = normalize_string_input(ui->addPrice->text());
 	QString stockStr = normalize_string_input(ui->addStock->text());
-	if(code.length() != 12)
+    if(!product::check_barcode(code))
 	{
 		invalid_value( "Invalid code '" + code + "'." );
 		return;
