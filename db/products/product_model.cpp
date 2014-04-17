@@ -1,4 +1,3 @@
-
 #include <QSqlError>
 #include <db/products/product_model.h>
 #include <db/utilities.h>
