@@ -12,10 +12,12 @@ mainmenu::mainmenu(QWidget *parent) :
     QObject::connect(ui->pushButton_myynti, SIGNAL(clicked()), signalMapper, SLOT(map()));
     QObject::connect(ui->pushButton_product, SIGNAL(clicked()), signalMapper, SLOT(map()));
     QObject::connect(ui->pushButton_kt_hallinta, SIGNAL(clicked()), signalMapper, SLOT(map()));
+    QObject::connect(ui->pushButton_salestrack, SIGNAL(clicked()), signalMapper, SLOT(map()));
 
     signalMapper -> setMapping (ui->pushButton_myynti, 3);
     signalMapper -> setMapping (ui->pushButton_product, 2);
     signalMapper -> setMapping (ui->pushButton_kt_hallinta, 4);
+    signalMapper -> setMapping (ui->pushButton_salestrack, 5);
 
     connect (signalMapper, SIGNAL(mapped(int)), this, SLOT(send_page(int))) ;
 }

@@ -38,8 +38,8 @@ private:
     Ui::sale *ui;
     QStringList product_wordlist;
     int row_number;
-    int total_price;
-    int product_price;
+    double total_price;
+    double product_price;
     QString current_product_name;
     product* new_product;
     QVector<sales_row> sales_list;

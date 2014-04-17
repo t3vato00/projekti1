@@ -14,11 +14,12 @@ class user : public QDialog
 public:
     explicit user(QWidget *parent = 0);
     ~user();
+    inline QString kortti_id() const {return _kortti_id;}
 
 private:
     Ui::user *ui;
-    QString nimi;
-    QString kortti_id;
+    QString _nimi;
+    QString _kortti_id = "kortinnumero";
 
 };
 

@@ -6,6 +6,7 @@
 #include <QString>
 #include <QCompleter>
 #include <QVector>
+#include <QDateTime>
 
 #include <QtSql/QSql>
 #include <QtSql/QSqlDatabase>
@@ -45,7 +46,6 @@ void sale::set_wordlist(){
     query.exec("select name from products");
     while (query.next())
         product_wordlist << query.value(0).toString();
-
 }
 
 void sale::on_pushButton_lisaa_tuote_clicked()
@@ -116,11 +116,11 @@ void sale::on_lineEdit_m_nimi_editingFinished()
         if(current_product_name != ui->lineEdit_m_nimi->text()){
 
             current_product_name = ui->lineEdit_m_nimi->text();
-            new_product->set_data(current_product_name);
+            new_product->set_by_name(current_product_name);
 
-            product_price = new_product->price;
-            ui->lineEdit_m_koodi->setText(new_product->code);
-            ui->label_tuotehinta->setText(QString::number(new_product->price)+ " €");
+            product_price = new_product->price();
+            ui->lineEdit_m_koodi->setText(new_product->barcode());
+            ui->label_tuotehinta->setText(QString::number(new_product->price())+ " €");
         }
     }else{
         clear_lineEdits();
@@ -144,10 +144,19 @@ void sale::on_lineEdit_clear_clicked()
 
 void sale::on_myy_clicked()
 {
+    QString card_number = "kortinnum";
+    QSqlQuery que;
+    int max;
+
+    que.exec("select max(sales_event_id) from sales_event");
+    while(que.next())
+        max = que.value(0).toInt()+1;
+    QString maxi = QString::number(max);
+    QSqlQuery querys;
+    querys.exec("INSERT INTO sales_event VALUES("+maxi+",'"+card_number+"',"+QString::number( total_price, 'f', 2 )+",NOW())");
 
     for (auto i = sales_list.begin(); i != sales_list.end(); ++i){
-      qDebug() << (*i).product_code;
-      qDebug() << (*i).amount;
-      qDebug() << (*i).sales_id;
+        QSqlQuery lisaa;
+        lisaa.exec("INSERT INTO sales_row VALUES(0,"+maxi+",'"+(*i).product_code+"',"+QString::number((*i).amount,'f',2)+")");
     }
 }

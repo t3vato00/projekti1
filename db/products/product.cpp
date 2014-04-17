@@ -41,14 +41,14 @@ bool product::check_barcode(QString barcode)
     }
 }
 
-void product::set_data(QString nimi)
+void product::set_by_name(QString nimi)
 {
     QSqlQuery query;
     query.exec("select * from products where name='"+nimi+"'");
     while (query.next()){
-        this->code = query.value(0).toString();
-        this->name = query.value(1).toString();
-        this->price = query.value(2).toDouble();
-        this->stock = query.value(3).toInt();
+        this->_code = query.value(0).toString();
+        this->_name = query.value(1).toString();
+        this->_price = query.value(2).toDouble();
+        this->_stock = query.value(3).toInt();
     }
 }

@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent)
    tuote = new product_management();
    myynti = new sale();
    kayttajat = new user();
+   salestrack = new sales_tracking();
 
    stackedWidget = new QStackedWidget;
    stackedWidget->insertWidget(0,login_page);
@@ -26,11 +27,12 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent)
    stackedWidget->insertWidget(2,tuote);
    stackedWidget->insertWidget(3,myynti);
    stackedWidget->insertWidget(4,kayttajat);
+   stackedWidget->insertWidget(5,salestrack);
 
    QObject::connect(login_page, SIGNAL(loginClicked(int)),stackedWidget, SLOT(setCurrentIndex(int)));
-   QObject::connect(login_page, SIGNAL(loginClicked(int)),this, SLOT(showToolBar()));
+   QObject::connect(login_page, SIGNAL(loginClicked(int)),this, SLOT(show_toolbar()));
    QObject::connect(mainpage, SIGNAL(send_page_index(int)),stackedWidget, SLOT(setCurrentIndex(int)));
-   QObject::connect(this, SIGNAL(ToMain_signal(int)),stackedWidget, SLOT(setCurrentIndex(int)));
+   QObject::connect(this, SIGNAL(to_main_signal(int)),stackedWidget, SLOT(setCurrentIndex(int)));
 
    //setFixedHeight(800);
    //setFixedWidth(1200);
@@ -45,11 +47,11 @@ MainWindow::~MainWindow()
     delete kayttajat;
 }
 
-void MainWindow::showToolBar()
+void MainWindow::show_toolbar()
 {
     create_actions();
     create_toolbars();
-    QObject::disconnect(login_page, SIGNAL(loginClicked(int)),this, SLOT(showToolBar()));
+    QObject::disconnect(login_page, SIGNAL(loginClicked(int)),this, SLOT(show_toolbar()));
 }
 
 void MainWindow::create_toolbars()
@@ -61,16 +63,16 @@ void MainWindow::create_toolbars()
 
 }
 
-void MainWindow::ToMainmenu()
+void MainWindow::to_mainmenu()
  {
-    emit ToMain_signal(1);
+    emit to_main_signal(1);
  }
 
 void MainWindow::create_actions()
 {
     ToMainmenuAct = new QAction(QIcon(":images/undo.png"), tr("&Päävalikkoon"), this);
     ToMainmenuAct->setStatusTip(tr("Päävalikkoon"));
-    QObject::connect(ToMainmenuAct, SIGNAL(triggered()), this, SLOT(ToMainmenu()));
+    QObject::connect(ToMainmenuAct, SIGNAL(triggered()), this, SLOT(to_mainmenu()));
 }
 bool MainWindow::createConnection(){
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");

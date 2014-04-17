@@ -16,10 +16,10 @@
   <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
-     <x>378</x>
-     <y>150</y>
+     <x>70</x>
+     <y>60</y>
      <width>341</width>
-     <height>231</height>
+     <height>263</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
@@ -34,19 +34,6 @@
      <widget class="QLabel" name="label_kuva2">
       <property name="text">
        <string>kuva2</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="1">
-     <widget class="QPushButton" name="pushButton_kt_hallinta">
-      <property name="minimumSize">
-       <size>
-        <width>25</width>
-        <height>60</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>Käyttäjien hallinta</string>
       </property>
      </widget>
     </item>
@@ -82,7 +69,40 @@
        </size>
       </property>
       <property name="text">
-       <string>sale</string>
+       <string>Myynti</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>kuva4</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QPushButton" name="pushButton_salestrack">
+      <property name="minimumSize">
+       <size>
+        <width>25</width>
+        <height>60</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>Myynnin seuranta</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QPushButton" name="pushButton_kt_hallinta">
+      <property name="minimumSize">
+       <size>
+        <width>25</width>
+        <height>60</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>Käyttäjien hallinta</string>
       </property>
      </widget>
     </item>

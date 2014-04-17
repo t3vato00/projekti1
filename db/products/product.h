@@ -23,6 +23,7 @@ public:
 	}
 
 	bool check_barcode();
+    void set_by_name(QString);
 	static bool check_barcode(QString code);
 
 	inline QString barcode() const { return _code; }
