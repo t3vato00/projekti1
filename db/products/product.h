@@ -11,6 +11,7 @@ class product
 	unsigned _stock;
 
 public:
+
 	inline product()
 	: _code(""), _name(""), _price(0), _stock(0)
 	{
@@ -22,6 +23,7 @@ public:
 	}
 
 	bool check_barcode();
+    void set_by_name(QString);
 	static bool check_barcode(QString code);
 
 	static QString preprocess_name(QString const name);

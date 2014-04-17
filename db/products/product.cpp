@@ -1,6 +1,12 @@
 #include "product.h"
 #include <db/utilities.h>
 
+#include <QtSql/QSql>
+#include <QtSql/QSqlDatabase>
+#include <QtSql/QSqlDriver>
+#include <QtSql/QSqlQuery>
+#include <QDebug>
+
 bool product::check_barcode()
 {
 	return product::check_barcode(_code);
@@ -115,3 +121,14 @@ parse_stock(QString const stock)
 	return stock.toUInt();
 }
 
+void product::set_by_name(QString nimi)
+{
+    QSqlQuery query;
+    query.exec("select * from products where name='"+nimi+"'");
+    while (query.next()){
+        this->_code = query.value(0).toString();
+        this->_name = query.value(1).toString();
+        this->_price = query.value(2).toDouble();
+        this->_stock = query.value(3).toInt();
+    }
+}

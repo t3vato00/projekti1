@@ -13,83 +13,100 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QLabel" name="label_kuva1">
+  <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
-     <x>380</x>
-     <y>160</y>
-     <width>53</width>
-     <height>16</height>
+     <x>70</x>
+     <y>60</y>
+     <width>341</width>
+     <height>263</height>
     </rect>
    </property>
-   <property name="text">
-    <string>kuva1</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_kuva2">
-   <property name="geometry">
-    <rect>
-     <x>378</x>
-     <y>250</y>
-     <width>53</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>kuva2</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_kuva3">
-   <property name="geometry">
-    <rect>
-     <x>381</x>
-     <y>339</y>
-     <width>53</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>kuva3</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_myynti">
-   <property name="geometry">
-    <rect>
-     <x>480</x>
-     <y>150</y>
-     <width>150</width>
-     <height>60</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>sale</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_product">
-   <property name="geometry">
-    <rect>
-     <x>480</x>
-     <y>240</y>
-     <width>150</width>
-     <height>60</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Tuotehallinta</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_kt_hallinta">
-   <property name="geometry">
-    <rect>
-     <x>480</x>
-     <y>320</y>
-     <width>150</width>
-     <height>60</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Käyttäjien hallinta</string>
-   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_kuva3">
+      <property name="text">
+       <string>kuva3</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_kuva2">
+      <property name="text">
+       <string>kuva2</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QPushButton" name="pushButton_product">
+      <property name="minimumSize">
+       <size>
+        <width>25</width>
+        <height>60</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>Tuotehallinta</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_kuva1">
+      <property name="text">
+       <string>kuva1</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QPushButton" name="pushButton_myynti">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>25</width>
+        <height>60</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>Myynti</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>kuva4</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QPushButton" name="pushButton_salestrack">
+      <property name="minimumSize">
+       <size>
+        <width>25</width>
+        <height>60</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>Myynnin seuranta</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QPushButton" name="pushButton_kt_hallinta">
+      <property name="minimumSize">
+       <size>
+        <width>25</width>
+        <height>60</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>Käyttäjien hallinta</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>
