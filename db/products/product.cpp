@@ -1,4 +1,5 @@
 #include "product.h"
+#include <db/utilities.h>
 
 bool product::check_barcode()
 {
@@ -34,3 +35,76 @@ bool product::check_barcode(QString barcode)
         return false;
     }
 }
+
+QString
+product::
+preprocess_name(QString const name)
+{
+	return normalize_string_input( name );
+}
+
+bool
+product::
+check_name(QString const name)
+{
+	if( name.length() == 0 )
+		return false;
+
+	return !name.at(0).isSpace() || !name.at(name.length()-1).isSpace();
+}
+
+QString
+product::
+parse_name(QString const name)
+{
+	return name;
+}
+
+QString
+product::
+preprocess_price(QString const price)
+{
+	return normalize_string_input( price );
+}
+
+bool
+product::
+check_price(QString const str)
+{
+	bool ok;
+	double price = str.toDouble(&ok);
+
+	return ok && price >= 0;
+}
+
+double
+product::
+parse_price(QString const price)
+{
+	return price.toDouble();
+}
+
+QString
+product::
+preprocess_stock(QString const stock)
+{
+	return normalize_string_input( stock );
+}
+
+bool
+product::
+check_stock(QString const str)
+{
+	bool ok;
+	unsigned stock = str.toUInt(&ok);
+
+	return ok;
+}
+
+unsigned
+product::
+parse_stock(QString const stock)
+{
+	return stock.toUInt();
+}
+

@@ -11,6 +11,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = inventaari
 TEMPLATE = app
 
+QMAKE_CXXFLAGS += --std=c++11
 
 SOURCES += main.cpp \
     ui/mainwindow.cpp \
@@ -21,7 +22,8 @@ SOURCES += main.cpp \
     db/products/product_model.cpp \
     ui/sales/sale.cpp \
     ui/users/user.cpp \
-    db/products/product.cpp
+    db/products/product.cpp \
+    db/utilities.cpp
 
 HEADERS  += \
     ui/mainwindow.h \
@@ -32,7 +34,8 @@ HEADERS  += \
     db/products/product_model.h \
     ui/sales/sale.h \
     ui/users/user.h \
-    db/products/product.h
+    db/products/product.h \
+    db/utilities.h
 
 RESOURCES += \
     resource.qrc

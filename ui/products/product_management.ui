@@ -17,71 +17,42 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <layout class="QGridLayout" name="gridLayout_2" columnstretch="0,1,0,0" columnminimumwidth="30,30,30,30">
-       <item row="1" column="3">
-        <widget class="QLabel" name="labelStock_2">
-         <property name="text">
-          <string>stock</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="2">
-        <widget class="QLabel" name="labelPrice_2">
-         <property name="text">
-          <string>price</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QLabel" name="labelName_2">
-         <property name="text">
-          <string>name</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLineEdit" name="filterCode"/>
-       </item>
-       <item row="2" column="1">
-        <widget class="QLineEdit" name="filterName"/>
-       </item>
-       <item row="2" column="2">
-        <widget class="QLineEdit" name="filterPrice"/>
-       </item>
-       <item row="2" column="3">
-        <widget class="QLineEdit" name="filterStock"/>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="labelCode_2">
-         <property name="text">
-          <string>code</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <widget class="QLineEdit" name="filterLine">
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+      </widget>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_3">
-       <item>
-        <widget class="QPushButton" name="clearFilter">
-         <property name="text">
-          <string>Clear</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="filter">
-         <property name="text">
-          <string>Filter</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <widget class="QPushButton" name="filterButton">
+       <property name="text">
+        <string>Refresh</string>
+       </property>
+       <property name="icon">
+        <iconset theme="view-refresh"/>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
    <item>
     <widget class="QTableView" name="productView"/>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>0</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
@@ -153,38 +124,6 @@
  </widget>
  <resources/>
  <connections>
-  <connection>
-   <sender>filter</sender>
-   <signal>clicked()</signal>
-   <receiver>product_management</receiver>
-   <slot>update_filter()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>869</x>
-     <y>49</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>460</x>
-     <y>236</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>clearFilter</sender>
-   <signal>clicked()</signal>
-   <receiver>product_management</receiver>
-   <slot>clear_filter()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>869</x>
-     <y>21</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>460</x>
-     <y>236</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>add</sender>
    <signal>clicked()</signal>

@@ -24,15 +24,27 @@ public:
 	bool check_barcode();
 	static bool check_barcode(QString code);
 
+	static QString preprocess_name(QString const name);
+	static bool check_name(QString const name);
+	static QString parse_name(QString const name);
+
+	static QString preprocess_price(QString const price);
+	static bool check_price(QString const price);
+	static double parse_price(QString const price);
+
+	static QString preprocess_stock(QString const stock);
+	static bool check_stock(QString const stock);
+	static unsigned parse_stock(QString const stock);
+
 	inline QString barcode() const { return _code; }
 	inline QString name() const { return _name; }
 	inline double price() const { return _price; }
 	inline int stock() const { return _stock; }
 
-	inline void setBarcode( QString x ) { _code = x; }
-	inline void setName( QString x ) { _name = x; }
-	inline void setPrice( double x ) { _price = x; }
-	inline void setStock( unsigned x ) { _stock = x; }
+	inline void set_barcode( QString x ) { _code = x; }
+	inline void set_name( QString x ) { _name = x; }
+	inline void set_price( double x ) { _price = x; }
+	inline void set_stock( unsigned x ) { _stock = x; }
 };
 
 #endif // PRODUCT_H
