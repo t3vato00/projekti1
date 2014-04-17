@@ -16,5 +16,5 @@ CREATE TABLE products
 ,	CONSTRAINT products_name UNIQUE products_name_key (name)
 );
 
-GRANT SELECT, INSERT, UPDATE ON products TO 'inventaari'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON products TO 'inventaari'@'%';
 

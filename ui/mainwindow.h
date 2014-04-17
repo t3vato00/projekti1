@@ -6,6 +6,7 @@
 #include "ui/login/loginpage.h"
 #include "ui/products/product_management.h"
 #include "ui/sales/sale.h"
+#include "ui/sales/sales_tracking.h"
 #include "ui/users/user.h"
 #include "ui/mainmenu/mainmenu.h"
 
@@ -16,13 +17,14 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     bool createConnection();
+     user*  kayttajat;
 
 private slots:
-    void ToMainmenu();
-    void showToolBar();
+    void to_mainmenu();
+    void show_toolbar();
 
 signals:
-     void ToMain_signal(int);
+     void to_main_signal(int);
 
 private:
     QAction *ToMainmenuAct;
@@ -32,9 +34,9 @@ private:
     void create_actions();
     loginpage *login_page;
     mainmenu * mainpage;
+    sales_tracking *salestrack;
     product_management *tuote;
     sale* myynti;
-    user*  kayttajat;
     QStackedWidget *stackedWidget;
 };
 
