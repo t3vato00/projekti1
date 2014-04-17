@@ -7,6 +7,7 @@
 #include <QCompleter>
 #include <QVector>
 #include <QDateTime>
+#include <qvariant.h>
 
 #include <QtSql/QSql>
 #include <QtSql/QSqlDatabase>
@@ -145,18 +146,40 @@ void sale::on_lineEdit_clear_clicked()
 void sale::on_myy_clicked()
 {
     QString card_number = "kortinnum";
-    QSqlQuery que;
-    int max;
-
-    que.exec("select max(sales_event_id) from sales_event");
-    while(que.next())
-        max = que.value(0).toInt()+1;
-    QString maxi = QString::number(max);
     QSqlQuery querys;
-    querys.exec("INSERT INTO sales_event VALUES("+maxi+",'"+card_number+"',"+QString::number( total_price, 'f', 2 )+",NOW())");
+    querys.prepare("INSERT INTO sales_event VALUES(Null,?,?,NOW()); SELECT LAST_INSERT_ID();");
+    querys.bindValue(0,card_number);
+    querys.bindValue(1,QString::number( total_price, 'f', 2 ));
+    querys.exec();
 
+    int id;
+    if(querys.nextResult() ){
+        if( querys.next())
+            id = querys.value(0).toInt();
+    }
     for (auto i = sales_list.begin(); i != sales_list.end(); ++i){
         QSqlQuery lisaa;
-        lisaa.exec("INSERT INTO sales_row VALUES(0,"+maxi+",'"+(*i).product_code+"',"+QString::number((*i).amount,'f',2)+")");
+/*
+        QSqlDatabase::database().transaction();
+        lisaa.prepare("UPDATE products SET stock=stock-? WHERE code = ?");
+        if (query.next()) {
+            int artistId = query.value(0).toInt();
+            query.exec("INSERT INTO cd (id, artistid, title, year) "
+                       "VALUES (201, " + QString::number(artistId)
+                       + ", 'Riding the Tiger', 1997)");
+        QSqlDatabase::database().commit();
+        }else
+            QSqlDatabase::database().rollback();
+*/
+
+
+
+        lisaa.prepare("UPDATE products SET stock=stock-? WHERE code = ?;INSERT INTO sales_row VALUES(null,?,?,?);");
+        lisaa.bindValue(0,(*i).amount);
+        lisaa.bindValue(1,(*i).product_code);
+        lisaa.bindValue(2,id);
+        lisaa.bindValue(3,(*i).product_code);
+        lisaa.bindValue(4,QString::number((*i).amount,'f',2));
+        lisaa.exec();
     }
 }
