@@ -10,6 +10,11 @@ bool product::check_barcode()
 
 bool product::check_barcode(QString barcode)
 {
+    if(barcode.length != 12)
+    {
+        return false;
+    }else
+    {
 	char a[13];
     QByteArray code_array;
     code_array = barcode.toLatin1();
@@ -36,4 +41,6 @@ bool product::check_barcode(QString barcode)
     {
         return false;
     }
+    }
+
 }
