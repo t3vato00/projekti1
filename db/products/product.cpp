@@ -10,7 +10,7 @@ bool product::check_barcode()
 
 bool product::check_barcode(QString barcode)
 {
-    if(barcode.length != 12)
+    if(barcode.length() != 12)
     {
         return false;
     }else
