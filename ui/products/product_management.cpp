@@ -13,22 +13,27 @@ product_management(QWidget *parent) :
 {
 	ui->setupUi(this);
 
-	ui->productView->setModel(&model);
-	filterTimer.setInterval(1000);
-	filterTimer.setSingleShot(true);
-	QObject::connect(ui->filterLine,&QLineEdit::textChanged,this,&product_management::update_filter);
-	QObject::connect(&filterTimer,&QTimer::timeout,this,&product_management::refresh_view);
-	refresh_view();
+	ui->product_view->setModel(&model);
+	ui->product_view->setSelectionBehavior(QAbstractItemView::SelectRows);
+	filter_timer.setInterval(1000);
+	filter_timer.setSingleShot(true);
+	QObject::connect(ui->filter_line, &QLineEdit::textChanged, this, &product_management::update_filter);
+	QObject::connect(&filter_timer, &QTimer::timeout, this, &product_management::refresh_view);
+	QObject::connect(ui->filter_refresh, &QPushButton::clicked, this, &product_management::refresh_view);
+	QObject::connect(ui->delete_button, &QPushButton::clicked, this, &product_management::delete_products);
+	// refresh_view();
 
 	insert.prepare("INSERT INTO products(code, name, price, stock) VALUES(?,?,?,?);");
-	QObject::connect(ui->addCode,&QLineEdit::textChanged,this,&product_management::add_code_changed);
+	QObject::connect(ui->add_code, &QLineEdit::textChanged, this, &product_management::add_code_changed);
 	add_code_changed();
-	QObject::connect(ui->addName,&QLineEdit::textChanged,this,&product_management::add_name_changed);
+	QObject::connect(ui->add_name, &QLineEdit::textChanged, this, &product_management::add_name_changed);
 	add_name_changed();
-	QObject::connect(ui->addPrice,&QLineEdit::textChanged,this,&product_management::add_price_changed);
+	QObject::connect(ui->add_price, &QLineEdit::textChanged, this, &product_management::add_price_changed);
 	add_price_changed();
-	QObject::connect(ui->addStock,&QLineEdit::textChanged,this,&product_management::add_stock_changed);
+	QObject::connect(ui->add_stock, &QLineEdit::textChanged, this, &product_management::add_stock_changed);
 	add_stock_changed();
+	QObject::connect(ui->add_button, &QPushButton::clicked, this, &product_management::add_product);
+	QObject::connect(ui->clear_add, &QPushButton::clicked, this, &product_management::clear_add);
 }
 
 product_management::
@@ -41,15 +46,15 @@ void
 product_management::
 update_filter()
 {
-	if( model.setSearchString(ui->filterLine->text()) )
+	if( model.setSearchString(ui->filter_line->text()) )
 	{
-		ui->filterLine->setStyleSheet(".QLineEdit { background: blue; }");
-		filterTimer.start();
+		ui->filter_line->setStyleSheet(".QLineEdit { background: blue; }");
+		filter_timer.start();
 	}
 	else
 	{
-		ui->filterLine->setStyleSheet(".QLineEdit { background: red; }");
-		filterTimer.stop();
+		ui->filter_line->setStyleSheet(".QLineEdit { background: red; }");
+		filter_timer.stop();
 	}
 }
 
@@ -57,25 +62,25 @@ void
 product_management::
 refresh_view()
 {
-	filterTimer.stop();
+	filter_timer.stop();
 	model.refresh();
-	ui->filterLine->setStyleSheet("");
-	emit ui->productView->resizeColumnsToContents();
+	ui->filter_line->setStyleSheet("");
+	emit ui->product_view->resizeColumnsToContents();
 }
 
 void
 product_management::
 add_code_changed()
 {
-	QString code = normalize_string_input(ui->addCode->text());
+	QString code = normalize_string_input(ui->add_code->text());
 	if( (add_code_valid = product::check_barcode(code)) )
 	{
-		ui->addCode->setStyleSheet("");
+		ui->add_code->setStyleSheet("");
 		add_code = code;
 	}
 	else
 	{
-		ui->addCode->setStyleSheet(".QLineEdit { background: red; }");
+		ui->add_code->setStyleSheet(".QLineEdit { background: red; }");
 		add_code = QStringLiteral("");
 	}
 }
@@ -84,15 +89,15 @@ void
 product_management::
 add_name_changed()
 {
-	QString name = normalize_string_input(ui->addName->text());
+	QString name = normalize_string_input(ui->add_name->text());
 	if( (add_name_valid = name.length() > 0 && name.length() <= 200) )
 	{
-		ui->addName->setStyleSheet("");
+		ui->add_name->setStyleSheet("");
 		add_name = name;
 	}
 	else
 	{
-		ui->addName->setStyleSheet(".QLineEdit { background: red; }");
+		ui->add_name->setStyleSheet(".QLineEdit { background: red; }");
 		add_name = QStringLiteral("");
 	}
 }
@@ -102,15 +107,15 @@ product_management::
 add_price_changed()
 {
 	bool ok;
-	double price = normalize_string_input(ui->addPrice->text()).toDouble(&ok);
+	double price = normalize_string_input(ui->add_price->text()).toDouble(&ok);
 	if( (add_price_valid = ok && price >= 0.0) )
 	{
-		ui->addPrice->setStyleSheet("");
+		ui->add_price->setStyleSheet("");
 		add_price = price;
 	}
 	else
 	{
-		ui->addPrice->setStyleSheet(".QLineEdit { background: red; }");
+		ui->add_price->setStyleSheet(".QLineEdit { background: red; }");
 		add_price = 0.0;
 	}
 }
@@ -120,15 +125,15 @@ product_management::
 add_stock_changed()
 {
 	bool ok;
-	unsigned stock = normalize_string_input(ui->addStock->text()).toUInt(&ok);
+	unsigned stock = normalize_string_input(ui->add_stock->text()).toUInt(&ok);
 	if( (add_stock_valid = ok) )
 	{
-		ui->addStock->setStyleSheet("");
+		ui->add_stock->setStyleSheet("");
 		add_stock = stock;
 	}
 	else
 	{
-		ui->addStock->setStyleSheet(".QLineEdit { background: red; }");
+		ui->add_stock->setStyleSheet(".QLineEdit { background: red; }");
 		add_stock = 0.0;
 	}
 }
@@ -171,9 +176,18 @@ void
 product_management::
 clear_add()
 {
-	ui->addCode->setText(QStringLiteral(""));
-	ui->addName->setText(QStringLiteral(""));
-	ui->addPrice->setText(QStringLiteral(""));
-	ui->addStock->setText(QStringLiteral(""));
+	ui->add_code->setText(QStringLiteral(""));
+	ui->add_name->setText(QStringLiteral(""));
+	ui->add_price->setText(QStringLiteral(""));
+	ui->add_stock->setText(QStringLiteral(""));
+}
+
+void
+product_management::
+delete_products()
+{
+	auto selection = ui->product_view->selectionModel()->selectedRows(0);
+	for( auto index : selection )
+		this->model.removeRow( index.row(), index.parent());
 }
 

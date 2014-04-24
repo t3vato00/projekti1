@@ -4,6 +4,7 @@
 #include <QTimer>
 #include <QWidget>
 #include <QSqlQuery>
+#include <QPushButton>
 #include <db/products/product_model.h>
 
 namespace Ui {
@@ -23,13 +24,14 @@ private slots:
 	void clear_add();
 	void update_filter();
 	void refresh_view();
+	void delete_products();
 	void add_code_changed();
 	void add_name_changed();
 	void add_price_changed();
 	void add_stock_changed();
 
 private:
-	QTimer filterTimer;
+	QTimer filter_timer;
 	Ui::product_management *ui;
 	product_model model;
 	QSqlQuery insert;

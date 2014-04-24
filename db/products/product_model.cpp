@@ -601,7 +601,6 @@ void
 product_model::
 refresh()
 {
-	beginResetModel();
 	query.exec();
 	if( query.lastError().isValid() )
 	{
@@ -609,6 +608,7 @@ refresh()
 		return;
 	}
 
+	beginResetModel();
 	for( auto prod : _data )
 		delete prod;
 	_data.clear();
@@ -617,5 +617,45 @@ refresh()
 
 	query.finish();
 	endResetModel();
+}
+
+bool
+product_model::
+removeRows( int row, int count, QModelIndex const & parent )
+{
+	if( parent.isValid() )
+		return false;
+
+	if( count == 0 )
+		return true;
+
+	if( row + count >= _data.size() )
+	{
+		qCritical( "product_model: Tried to remove non existent row!" );
+		return false;
+	}
+
+	QString sql = "DELETE FROM products";
+	QString sep = " WHERE";
+	for( auto prod = _data.begin()+row; prod < _data.begin()+row+count; prod += 1 )
+	{
+		sql += sep + " code = ?";
+		sep = " AND";
+	}
+	QSqlQuery del( sql );
+	for( auto prod = _data.begin()+row; prod < _data.begin()+row+count; prod += 1 )
+		del.addBindValue( (*prod)->barcode() );
+	if( del.exec() )
+	{
+		beginRemoveRows(QModelIndex(),row,row+count-1);
+		_data.erase( _data.begin()+row, _data.begin()+row+count );
+		endRemoveRows();
+	}
+	else
+	{
+		database_error( del.lastError() );
+		return false;
+	}
+	return true;
 }
 
