@@ -135,8 +135,13 @@ setData( const QModelIndex & index, const QVariant & value, int role )
 					database_error( sql_ch_code.lastError() );
 					return false;
 				}
-				if( sql_ch_code.numRowsAffected() == 0 ) return row_dissapeared(row);
+				if( sql_ch_code.numRowsAffected() == 0 )
+				{
+					sql_ch_code.finish();
+					return row_dissapeared(row);
+				}
 				_data[row]->set_barcode(newcode);
+				sql_ch_code.finish();
 				emit dataChanged( index, index );
 				return true;
 			}
@@ -177,11 +182,13 @@ setData( const QModelIndex & index, const QVariant & value, int role )
 					}
 					_data[row]->set_name(sql_sl_name.value(0).toString());
 					_data[row]->name_changed = true;
+					sql_sl_name.finish();
 					emit dataChanged( index, index );
 					return true;
 				}
 				_data[row]->set_name(newname);
 				_data[row]->name_changed = false;
+				sql_ch_name.finish();
 				emit dataChanged( index, index );
 				return true;
 			}
@@ -222,11 +229,13 @@ setData( const QModelIndex & index, const QVariant & value, int role )
 					}
 					_data[row]->set_price(sql_sl_price.value(0).toDouble());
 					_data[row]->price_changed = true;
+					sql_sl_price.finish();
 					emit dataChanged( index, index );
 					return true;
 				}
 				_data[row]->set_price(newprice);
 				_data[row]->price_changed = false;
+				sql_ch_price.finish();
 				emit dataChanged( index, index );
 				return true;
 			}
@@ -267,11 +276,13 @@ setData( const QModelIndex & index, const QVariant & value, int role )
 					}
 					_data[row]->set_stock(sql_sl_stock.value(0).toUInt());
 					_data[row]->stock_changed = true;
+					sql_sl_stock.finish();
 					emit dataChanged( index, index );
 					return true;
 				}
 				_data[row]->set_stock(newstock);
 				_data[row]->stock_changed = false;
+				sql_ch_stock.finish();
 				emit dataChanged( index, index );
 				return true;
 			}
@@ -744,6 +755,7 @@ refresh()
 	query.exec();
 	if( query.lastError().isValid() )
 	{
+		query.finish();
 		qCritical( "Database error!" );
 		return;
 	}
@@ -790,6 +802,7 @@ removeRows( int row, int count, QModelIndex const & parent )
 		beginRemoveRows(QModelIndex(),row,row+count-1);
 		_data.erase( _data.begin()+row, _data.begin()+row+count );
 		endRemoveRows();
+		del.finish();
 	}
 	else
 	{
