@@ -85,14 +85,34 @@ void sale::on_pushButton_lisaa_tuote_clicked()
     current_product_name = "";
 }
 
+void sale::delete_row(int row_number)
+{
+/*
+    auto selection = ui->product_view->selectionModel()->selectedRows(0);
+    for( auto index : selection )
+        this->model.removeRow( index.row(), index.parent());
+
+//readonly
+QTableWidgetItem *twItem = tableWidget->item(3, 4);
+twItem->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
+// if you do not need selectable items this is ok:
+twItem->setFlags(Qt::NoItemFlags);
+
+*/
+}
+
+
+
 void sale::add_row_to_list()
 {
+    if(stock_amount >= ui->lineEdit_m_maara->displayText().toDouble()){
     int sale_id=1;
     sales_row new_row =  sales_row( sale_id,
                                         ui->lineEdit_m_koodi->text(),
                                         ui->lineEdit_m_maara->text().toDouble()
                                        );
     sales_list.append(new_row);
+    }
 }
 
 void sale::on_lineEdit_m_maara_textChanged(const QString &maara)
@@ -112,17 +132,16 @@ void sale::on_lineEdit_m_nimi_textChanged(const QString &arg1)
 
 void sale::on_lineEdit_m_nimi_editingFinished()
 {
-
-
     if(ui->lineEdit_m_nimi->text() != ""){
         if(current_product_name != ui->lineEdit_m_nimi->text()){
 
             current_product_name = ui->lineEdit_m_nimi->text();
             new_product->set_by_name(current_product_name);
-
-            product_price = new_product->price();
             ui->lineEdit_m_koodi->setText(new_product->barcode());
             ui->label_tuotehinta->setText(QString::number(new_product->price())+ " €");
+            ui->label_stock->setText(QString::number(new_product->stock()));
+            product_price = new_product->price();
+            stock_amount = new_product->stock();
         }
     }else{
         clear_lineEdits();
@@ -135,6 +154,7 @@ void sale::clear_lineEdits()
     ui->lineEdit_m_nimi->setText(QStringLiteral(""));
     ui->lineEdit_m_koodi->setText(QStringLiteral(""));
     ui->lineEdit_m_maara->setText(QStringLiteral(""));
+    ui->label_stock->setText("0");
     ui->label_tuotehinta->setText(QStringLiteral("0"));
     ui->label_tuotehinta_yhteensa->setText(QStringLiteral("0"));
 }
@@ -146,7 +166,7 @@ void sale::on_lineEdit_clear_clicked()
 
 void sale::on_myy_clicked()
 {
-    QString card_number = "kortinnum";
+    QString card_number = "pekka";
     QSqlQuery querys;
     querys.prepare("INSERT INTO sales_event VALUES(Null,?,?,NOW()); SELECT LAST_INSERT_ID();");
     querys.bindValue(0,card_number);
@@ -159,52 +179,20 @@ void sale::on_myy_clicked()
         if( querys.next())
             id = querys.value(0).toInt();
     }
-    qDebug() << querys.isActive();
-
 
     for (auto i = sales_list.begin(); i != sales_list.end(); ++i){
-        bool can_sell = false;
-        QSqlDatabase::database().transaction();
+
         QSqlQuery sql_myy;
         sql_myy.prepare("UPDATE products SET stock=stock-? WHERE code = ?;"
-                        "SELECT stock FROM products WHERE code=?;"
                         "INSERT INTO sales_row VALUES(null,?,?,?);");
 
         sql_myy.bindValue(0,(*i).amount);
         sql_myy.bindValue(1,(*i).product_code);
 
-        sql_myy.bindValue(2,(*i).product_code);
-
-        sql_myy.bindValue(3,id);
-        sql_myy.bindValue(4,(*i).product_code);
-        sql_myy.bindValue(5,QString::number((*i).amount,'f',2));
+        sql_myy.bindValue(2,id);
+        sql_myy.bindValue(3,(*i).product_code);
+        sql_myy.bindValue(4,QString::number((*i).amount,'f',2));
         sql_myy.exec();
-
-        if(sql_myy.nextResult()){
-            if(sql_myy.next()){
-                qDebug() << sql_myy.value(0).toInt();
-                if(sql_myy.value(0).toInt()>=0)
-                   can_sell = true;
-            }
-        }
-        sql_myy.finish();
-        if (can_sell)
-        {
-            QSqlDatabase::database().commit();
-            qDebug() << "commit called!!";
-        }
-        else
-        {
-            QSqlDatabase::database().rollback();
-            qDebug() << "rollback called!!";
-        }
-
-        /*
-        lisaa.prepare("INSERT INTO sales_row VALUES(null,?,?,?);");
-        lisaa.bindValue(2,id);
-        lisaa.bindValue(3,(*i).product_code);
-        lisaa.bindValue(4,QString::number((*i).amount,'f',2));
-        lisaa.exec();*/
 
 
     }
