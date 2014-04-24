@@ -769,7 +769,7 @@ removeRows( int row, int count, QModelIndex const & parent )
 	if( count == 0 )
 		return true;
 
-	if( row + count >= _data.size() )
+	if( static_cast<unsigned>(row + count) > _data.size() )
 	{
 		qCritical( "product_model: Tried to remove non existent row!" );
 		return false;
