@@ -659,7 +659,7 @@ setSearchString( QString const & str )
 
 	if( low_rppresent[rpprice] )
 	{
-		qDebug() << "low price: " << min_rps[rpprice];
+		qDebug() << "low price: " << low_rps[rpprice];
 		sql += sep;
 		sql += " price > ?";
 		sep = sep_and;
