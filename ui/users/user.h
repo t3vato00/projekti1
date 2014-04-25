@@ -2,7 +2,6 @@
 #define KAYTTAJA_H
 
 #include <QDialog>
-#include <QNetworkReply>
 
 namespace Ui {
 class user;
