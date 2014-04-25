@@ -38,11 +38,13 @@ private:
     Ui::sale *ui;
     QStringList product_wordlist;
     int row_number;
+    int stock_amount;
     double total_price;
     double product_price;
     QString current_product_name;
     product* new_product;
     QVector<sales_row> sales_list;
+    void delete_row(int);
 
     void clear_lineEdits();
     void set_wordlist();
