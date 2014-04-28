@@ -19,8 +19,6 @@ public:
 private:
     Ui::user *ui;
 
-public slots:
-
 };
 
 #endif // KAYTTAJA_H

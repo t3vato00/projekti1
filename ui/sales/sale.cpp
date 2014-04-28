@@ -8,11 +8,9 @@
 #include <QVector>
 #include <QDateTime>
 #include <qvariant.h>
+#include <QMessageBox>
 
-#include <QtSql/QSql>
-#include <QtSql/QSqlDatabase>
-#include <QtSql/QSqlDriver>
-#include <QtSql/QSqlQuery>
+#include <QtSql>
 #include <QDebug>
 #include <QSqlError>
 
@@ -21,123 +19,85 @@ sale::sale(QWidget *parent) :
     ui(new Ui::sale)
 {
     ui->setupUi(this);
-    row_number=total_price=product_price =0;
+    row_number=total_price=product_price = 0;
     set_wordlist();
-
-    ui->tableView_myynti_tuotteet->setRowHeight(row_number,100);
-
-    QStringList headers;
-    headers << "Tuotenimi" << "Tuotekoodi" << "Määrä" << "Hinta" << "Hinta yhteensä";
-    for(int i=0; i<5;i++){
-        ui->tableView_myynti_tuotteet->insertColumn(i);
-        ui->tableView_myynti_tuotteet->setColumnWidth(i,200);
-    }
-    ui->tableView_myynti_tuotteet->setHorizontalHeaderLabels(headers);
     new_product = new product();
-
+    sales_row = new QSqlQueryModel;
+    disable_all();
 }
 
 sale::~sale()
 {
     delete ui;
+    delete new_product;
+    if(sales_row)
+    delete sales_row;
 }
 
-void sale::set_wordlist(){
-
-    QSqlQuery query;
-    query.exec("select name from products");
-    while (query.next())
-        product_wordlist << query.value(0).toString();
-    query.finish();
-}
-
-void sale::on_pushButton_lisaa_tuote_clicked()
+void sale::on_b_delete_row_clicked()
 {
-    ui->tableView_myynti_tuotteet->insertRow(row_number);
+    int selected = ui->salelist->selectionModel()->currentIndex().row();
+    QModelIndex index = sales_row->index(selected, 0, QModelIndex());
+    QModelIndex amount_index = sales_row->index(selected, 3, QModelIndex());
+    QModelIndex product_index = sales_row->index(selected, 2, QModelIndex());
 
-    QTableWidgetItem* tuotenimi = new QTableWidgetItem;
-    QTableWidgetItem* tuotekoodi = new QTableWidgetItem;
-    QTableWidgetItem* tuotemaara = new QTableWidgetItem;
-    QTableWidgetItem* tuotehinta = new QTableWidgetItem;
-    QTableWidgetItem* tuotehinta_yhteensa = new QTableWidgetItem;
+    QString row_id = ui->salelist->model()->data(index).toString();
+    QString product_code = ui->salelist->model()->data(product_index).toString();
+    int amount_ind = ui->salelist->model()->data(amount_index).toInt();
+    delete_row(row_id,product_code,amount_ind);
 
-
-    int maara = ui->lineEdit_m_maara->displayText().toInt();
-    int product_total_price = product_price* maara;
-    total_price = total_price+ product_total_price;
-
-    tuotenimi->setText(ui->lineEdit_m_nimi->text());
-    tuotekoodi->setText(ui->lineEdit_m_koodi->text());
-    tuotemaara->setText(ui->lineEdit_m_maara->text());
-    tuotehinta->setText(QString::number(product_price)+ " €");
-    tuotehinta_yhteensa->setText(QString::number(product_total_price)+ " €");
-
-    ui->tableView_myynti_tuotteet->setItem(row_number, 0, tuotenimi);
-    ui->tableView_myynti_tuotteet->setItem(row_number, 1, tuotekoodi);
-    ui->tableView_myynti_tuotteet->setItem(row_number, 2, tuotemaara);
-    ui->tableView_myynti_tuotteet->setItem(row_number, 3, tuotehinta);
-    ui->tableView_myynti_tuotteet->setItem(row_number, 4, tuotehinta_yhteensa);
-    ui->label_ostokset_yhteensa->setText(QString::number(total_price) + " €");
-
-    add_row_to_list();
-    clear_lineEdits();
-    row_number++;
-    current_product_name = "";
 }
-
-void sale::delete_row(int row_number)
+void sale::on_new_event_clicked()
 {
-/*
-    auto selection = ui->product_view->selectionModel()->selectedRows(0);
-    for( auto index : selection )
-        this->model.removeRow( index.row(), index.parent());
 
-//readonly
-QTableWidgetItem *twItem = tableWidget->item(3, 4);
-twItem->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
-// if you do not need selectable items this is ok:
-twItem->setFlags(Qt::NoItemFlags);
+    QString card_number = "pekka";
+    QSqlQuery querys;
+    querys.prepare("INSERT INTO sales_event VALUES(Null,?,?,NOW()); SELECT LAST_INSERT_ID();");
+    querys.bindValue(0,card_number);
+    querys.bindValue(1,QString::number( total_price, 'f', 2 ));
+    querys.exec();
 
-*/
-}
-
-
-
-void sale::add_row_to_list()
-{
-    if(stock_amount >= ui->lineEdit_m_maara->displayText().toDouble()){
-    int sale_id=1;
-    sales_row new_row =  sales_row( sale_id,
-                                        ui->lineEdit_m_koodi->text(),
-                                        ui->lineEdit_m_maara->text().toDouble()
-                                       );
-    sales_list.append(new_row);
+    if(querys.nextResult() ){
+        if( querys.next())
+            sale_event_id = querys.value(0).toInt();
     }
+    querys.finish();
+    refresh_list();
+    enable_all();
 }
 
-void sale::on_lineEdit_m_maara_textChanged(const QString &maara)
+void sale::on_b_delete_all_clicked()
 {
+    int rows = ui->salelist->verticalHeader()->count();
+    for(int i=0;i<rows;i++){
+        QModelIndex amount_index = sales_row->index(i, 3, QModelIndex());
+        QModelIndex product_index = sales_row->index(i, 2, QModelIndex());
 
-    int tuote_hinta_yhteensa= product_price* maara.toInt();
-    ui->label_tuotehinta_yhteensa->setText(QString::number(tuote_hinta_yhteensa)+ " €");
+        int amount = ui->salelist->model()->data(amount_index).toInt();
+        QString product_code = ui->salelist->model()->data(product_index).toString();
+        delete_row(0,product_code,amount);
+        qDebug() << "deleted rows " << rows;
+        qDebug() << "amounts" << amount;
+    }
+
+    QSqlQuery delete_event;
+    delete_event.prepare("DELETE FROM sales_event WHERE sales_event_id = ?");
+    delete_event.bindValue(0,sale_event_id);
+    delete_event.exec();
+    delete_event.finish();
+    refresh_list();
+    disable_all();
+    clear_lineEdits();
 }
 
-void sale::on_lineEdit_m_nimi_textChanged(const QString &arg1)
+void sale::on_product_name_editingFinished()
 {
-    QCompleter *completer = new QCompleter(product_wordlist, this);
-    completer->setCompletionMode(QCompleter::InlineCompletion);
-    completer->setCaseSensitivity(Qt::CaseInsensitive);
-    ui->lineEdit_m_nimi->setCompleter(completer);
-}
+    if(ui->product_name->text() != ""){
+        if(current_product_name != ui->product_name->text()){
 
-void sale::on_lineEdit_m_nimi_editingFinished()
-{
-    if(ui->lineEdit_m_nimi->text() != ""){
-        if(current_product_name != ui->lineEdit_m_nimi->text()){
-
-            current_product_name = ui->lineEdit_m_nimi->text();
+            current_product_name = ui->product_name->text();
             new_product->set_by_name(current_product_name);
-            ui->lineEdit_m_koodi->setText(new_product->barcode());
+            ui->product_code->setText(new_product->barcode());
             ui->label_tuotehinta->setText(QString::number(new_product->price())+ " €");
             ui->label_stock->setText(QString::number(new_product->stock()));
             product_price = new_product->price();
@@ -149,51 +109,154 @@ void sale::on_lineEdit_m_nimi_editingFinished()
     }
 }
 
+void sale::on_b_clear_clicked()
+{
+     clear_lineEdits();
+}
+
+void sale::on_b_add_clicked()
+{
+    if(stock_amount >= ui->product_amount->text().toInt())
+    {
+        QSqlQuery query;
+        query.prepare("INSERT INTO sales_row VALUES(Null,?,?,?);UPDATE products SET stock=stock-? WHERE code = ?");
+        query.bindValue(0,sale_event_id);
+        query.bindValue(1,ui->product_code->text());
+        query.bindValue(2,ui->product_amount->text().toInt());
+        query.bindValue(3,ui->product_amount->text().toInt());
+        query.bindValue(4,ui->product_code->text());
+        query.exec();
+        query.finish();
+
+        refresh_total_sum();
+        clear_lineEdits();
+    }
+    refresh_list();
+    current_product_name = "";
+}
+
+void sale::on_product_name_textChanged(const QString &arg1)
+{
+    QCompleter *completer = new QCompleter(product_wordlist, this);
+    completer->setCompletionMode(QCompleter::InlineCompletion);
+    completer->setCaseSensitivity(Qt::CaseInsensitive);
+    ui->product_name->setCompleter(completer);
+}
+
+void sale::on_product_amount_textChanged(const QString &maara)
+{
+    int tuote_hinta_yhteensa= product_price* maara.toInt();
+    ui->label_tuotehinta_yhteensa->setText(QString::number(tuote_hinta_yhteensa)+ " €");
+    if(stock_amount <= ui->product_amount->text().toInt())
+        ui->product_amount->setStyleSheet(".QLineEdit { background: red; }");
+    else
+        ui->product_amount->setStyleSheet("");
+}
+
+void sale::on_b_sell_clicked()
+{
+    QSqlQuery querys;
+    querys.prepare("UPDATE sales_event SET total_sum = ? WHERE sales_event_id = ?;");
+    querys.bindValue(0,ui->label_ostokset_yhteensa->text());
+    querys.bindValue(1,sale_event_id);
+    querys.exec();
+    querys.finish();
+
+    delete sales_row;
+    sales_row = NULL;
+    //sale_event_id = NULL;
+    disable_all();
+    clear_lineEdits();
+    refresh_total_sum();
+}
+/************************/
+// funktiot
+/************************/
+void sale::set_wordlist(){
+
+    QSqlQuery query;
+    query.exec("select name from products");
+    while (query.next())
+        product_wordlist << query.value(0).toString();
+    query.finish();
+}
+
 void sale::clear_lineEdits()
 {
-    ui->lineEdit_m_nimi->setText(QStringLiteral(""));
-    ui->lineEdit_m_koodi->setText(QStringLiteral(""));
-    ui->lineEdit_m_maara->setText(QStringLiteral(""));
+    ui->product_name->setText(QStringLiteral(""));
+    ui->product_code->setText(QStringLiteral(""));
+    ui->product_amount->setText(QStringLiteral(""));
     ui->label_stock->setText("0");
     ui->label_tuotehinta->setText(QStringLiteral("0"));
     ui->label_tuotehinta_yhteensa->setText(QStringLiteral("0"));
 }
 
-void sale::on_lineEdit_clear_clicked()
+void sale::disable_all()
 {
-    clear_lineEdits();
+    ui->product_name->setDisabled(true);
+    ui->product_code->setDisabled(true);
+    ui->product_amount->setDisabled(true);
+    ui->b_clear->setDisabled(true);
+    ui->b_add->setDisabled(true);
+    ui->b_delete_row->setDisabled(true);
+    ui->b_delete_all->setDisabled(true);
+    ui->b_sell->setDisabled(true);
 }
 
-void sale::on_myy_clicked()
+void sale::enable_all()
 {
-    QString card_number = "pekka";
+
+    ui->product_name->setEnabled(true);
+    ui->product_code->setEnabled(true);
+    ui->product_amount->setEnabled(true);
+    ui->b_clear->setEnabled(true);
+    ui->b_add->setEnabled(true);
+    ui->b_delete_row->setEnabled(true);
+    ui->b_delete_all->setEnabled(true);
+    ui->b_sell->setEnabled(true);
+}
+
+void sale::refresh_list()
+{
+
+    sales_row->setQuery("SELECT * FROM sales_row INNER JOIN products ON sales_row.product_code = products.code WHERE event_id = "+QString::number(sale_event_id));
+    ui->salelist->setModel(sales_row);
+
+    ui->salelist->hideColumn(0);
+    ui->salelist->hideColumn(1);
+    ui->salelist->hideColumn(4);
+    ui->salelist->hideColumn(7);
+
+    sales_row->setHeaderData(2, Qt::Horizontal, QObject::tr("Product code"));
+    sales_row->setHeaderData(3, Qt::Horizontal, QObject::tr("Amount"));
+    sales_row->setHeaderData(5, Qt::Horizontal, QObject::tr("Product name"));
+    sales_row->setHeaderData(6, Qt::Horizontal, QObject::tr("Product price"));
+    ui->salelist->resizeColumnsToContents();
+
+}
+void sale::delete_row(QString row_id, QString p_code, int amount)
+{
+    QSqlQuery query;
+    query.prepare("DELETE FROM sales_row WHERE row_id = ?;UPDATE products SET stock = stock+? WHERE code=?;");
+    query.bindValue(0,row_id);
+    query.bindValue(1,amount);
+    query.bindValue(2,p_code);
+    query.exec();
+    query.finish();
+
+    refresh_list();
+}
+
+void sale::refresh_total_sum()
+{
     QSqlQuery querys;
-    querys.prepare("INSERT INTO sales_event VALUES(Null,?,?,NOW()); SELECT LAST_INSERT_ID();");
-    querys.bindValue(0,card_number);
-    querys.bindValue(1,QString::number( total_price, 'f', 2 ));
+    querys.prepare("SELECT sum(amount*price) FROM sales_row INNER JOIN products ON sales_row.product_code = products.code WHERE event_id = ?;");
+    querys.bindValue(0,sale_event_id);
     querys.exec();
+    QString total_sum;
+    if( querys.next())
+        total_sum = querys.value(0).toString();
     querys.finish();
 
-    int id;
-    if(querys.nextResult() ){
-        if( querys.next())
-            id = querys.value(0).toInt();
-    }
-
-    for (auto i = sales_list.begin(); i != sales_list.end(); ++i){
-
-        QSqlQuery sql_myy;
-        sql_myy.prepare("UPDATE products SET stock=stock-? WHERE code = ?;"
-                        "INSERT INTO sales_row VALUES(null,?,?,?);");
-
-        sql_myy.bindValue(0,(*i).amount);
-        sql_myy.bindValue(1,(*i).product_code);
-
-        sql_myy.bindValue(2,id);
-        sql_myy.bindValue(3,(*i).product_code);
-        sql_myy.bindValue(4,QString::number((*i).amount,'f',2));
-        sql_myy.exec();
-
-
-    }
+    ui->label_ostokset_yhteensa->setText(total_sum);
 }
