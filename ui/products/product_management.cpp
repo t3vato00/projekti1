@@ -15,13 +15,14 @@ product_management(QWidget *parent) :
 
 	ui->product_view->setModel(&model);
 	ui->product_view->setSelectionBehavior(QAbstractItemView::SelectRows);
-	filter_timer.setInterval(1000);
+	filter_timer.setInterval(1500);
 	filter_timer.setSingleShot(true);
 	QObject::connect(ui->filter_line, &QLineEdit::textChanged, this, &product_management::update_filter);
 	QObject::connect(&filter_timer, &QTimer::timeout, this, &product_management::refresh_view);
 	QObject::connect(ui->filter_refresh, &QPushButton::clicked, this, &product_management::refresh_view);
 	QObject::connect(ui->delete_button, &QPushButton::clicked, this, &product_management::delete_products);
-	// refresh_view();
+	update_filter();
+	refresh_view();
 
 	insert.prepare("INSERT INTO products(code, name, price, stock) VALUES(?,?,?,?);");
 	QObject::connect(ui->add_code, &QLineEdit::textChanged, this, &product_management::add_code_changed);
@@ -170,6 +171,7 @@ add_product()
 	if(!insert.exec())
 		database_error( insert.lastError() );
 	insert.finish();
+	refresh_view();
 }
 
 void
