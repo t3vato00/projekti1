@@ -1,10 +1,14 @@
-#ifndef RFID_READER_H
-#define RFID_READER_H
+#ifndef RFID_READER_DLL_H
+#define RFID_READER_DLL_H
+
 #include <QThread>
 #include <QTimer>
-#include "qextserial/qextserialport.h"
+#include "C:/Users/Tommi/Desktop/Koulu/Projekti/git/inventaari/qextserial/qextserialport.h"
+#include "../../ui/login/loginpage.h"
 
-class rfid_reader : public QObject
+#include "rfid_reader_dll_global.h"
+
+class Rfid_reader_dll : public QObject
 {
     Q_OBJECT
 private:
@@ -16,16 +20,19 @@ private:
     bool first;
     unsigned missess;
     bool ending;
+
 private slots:
     void tick();
 signals:
     void rfid(QString);
     void norfid();
 public:
-    rfid_reader(QString pPort);
     bool start();
     void stop();
     QString prevRFID;
+    //Rfid_reader_dll(QString pPort);
+    Rfid_reader_dll(QString pPort);
+
 };
 
-#endif // RFID_READER_H
+#endif // RFID_READER_DLL_H
