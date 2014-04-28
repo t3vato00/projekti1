@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include "rfid/rfid_reader.h"
+#include <functional>
 
 namespace Ui {
 class loginpage;
@@ -15,7 +16,10 @@ class loginpage : public QDialog
 public:
     explicit loginpage(QWidget *parent = 0);
     ~loginpage();
-    rfid_reader* rfReader;
+    rfid_reader * rfReader;
+    bool reading_rfid;
+    std::function<void(QString)>read_rfid_handler;
+    void read_rfid( std::function<void(QString)> h );
 
 private:
     Ui::loginpage *ui;

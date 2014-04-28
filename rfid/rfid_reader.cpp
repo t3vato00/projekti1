@@ -43,7 +43,7 @@ void rfid_reader::tick()
         data[bytesRead] = '\0';
         if (bytesRead > 0)
         {
-            for(int i=0;i<10;i++)
+            for(int i=0;i<5;i++)
             {
                 sprintf(temp,"%08X", data[i]);
                 hexNum = temp;

@@ -14,7 +14,6 @@ private:
     bool openCOMPort();
     void closeCOMPort();
     bool first;
-    QString prevRFID;
     unsigned missess;
     bool ending;
 private slots:
@@ -26,6 +25,7 @@ public:
     rfid_reader(QString pPort);
     bool start();
     void stop();
+    QString prevRFID;
 };
 
 #endif // RFID_READER_H
