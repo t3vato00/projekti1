@@ -1,8 +1,7 @@
-#include "Rfid_reader_dll.h"
+#include "rfid_reader_dll.h"
 #include <stdio.h>
 #include <QObject>
 #include <QTimer>
-#include "../../ui/login/loginpage.h"
 #include <QtSql/QSql>
 #include <QtSql/QSqlDatabase>
 #include <QtSql/QSqlDriver>

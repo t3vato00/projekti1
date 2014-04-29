@@ -4,8 +4,7 @@
 #include <QtCore>
 #include <QThread>
 #include <QTimer>
-#include "C:/Users/Tommi/Desktop/Koulu/Projekti/git/inventaari/qextserial/qextserialport.h"
-#include "../../ui/login/loginpage.h"
+#include "qextserialport.h"
 
 #include "rfid_reader_dll_global.h"
 
