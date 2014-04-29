@@ -3,6 +3,11 @@
 #include <QObject>
 #include <QTimer>
 #include "../../ui/login/loginpage.h"
+#include <QtSql/QSql>
+#include <QtSql/QSqlDatabase>
+#include <QtSql/QSqlDriver>
+#include <QtSql/QSqlQuery>
+#include <QtSql/QSqlRecord>
 
 Rfid_reader_dll::Rfid_reader_dll(QString pPort)
 {
@@ -82,7 +87,16 @@ void Rfid_reader_dll::tick()
             }else
             {
                 prevRFID = cardSerialNumber;
-                emit rfid(prevRFID);
+                QSqlQuery check_id;
+                check_id.prepare("SELECT * FROM users;");
+                check_id.exec();
+                while(check_id.next()){
+
+                   if(prevRFID == check_id.record().value(2))
+                        {
+                            emit rfid(prevRFID);
+                        }
+                }
             }
         }
     }

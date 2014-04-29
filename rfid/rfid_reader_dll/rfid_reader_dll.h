@@ -1,6 +1,7 @@
 #ifndef RFID_READER_DLL_H
 #define RFID_READER_DLL_H
 
+#include <QtCore>
 #include <QThread>
 #include <QTimer>
 #include "C:/Users/Tommi/Desktop/Koulu/Projekti/git/inventaari/qextserial/qextserialport.h"
