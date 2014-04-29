@@ -50,7 +50,7 @@ void sale::on_b_delete_row_clicked()
 void sale::on_new_event_clicked()
 {
 
-    QString card_number = "pekka";
+    QString card_number = "9633ADB54C";
     QSqlQuery querys;
     querys.prepare("INSERT INTO sales_event VALUES(Null,?,?,NOW()); SELECT LAST_INSERT_ID();");
     querys.bindValue(0,card_number);

@@ -12,7 +12,7 @@ loginpage::loginpage(QWidget *parent) :
 {
     ui->setupUi(this);
     QObject::connect(ui->pushButton, SIGNAL(clicked()),this, SLOT(sendLogin()));
-    rfReader = new Rfid_reader_dll("COM5");
+    rfReader = new Rfid_reader_dll("COM11");
     rfReader->start();
     QObject::connect(rfReader, SIGNAL(norfid()),this, SLOT(rfid_noup()));
     QObject::connect(rfReader, SIGNAL(rfid(QString)),this, SLOT(rfid_ok(QString)));
