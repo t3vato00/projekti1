@@ -1,13 +1,21 @@
+#include "Rfid_reader_dll.h"
 #include <stdio.h>
-#include "rfid/rfid_reader.h"
+#include <QObject>
+#include <QTimer>
+#include "../../ui/login/loginpage.h"
+#include <QtSql/QSql>
+#include <QtSql/QSqlDatabase>
+#include <QtSql/QSqlDriver>
+#include <QtSql/QSqlQuery>
+#include <QtSql/QSqlRecord>
 
-rfid_reader::rfid_reader(QString pPort)
+Rfid_reader_dll::Rfid_reader_dll(QString pPort)
 {
     portName = pPort;
-    connect(&timer, SIGNAL(timeout()),this,SLOT(tick()));
+    QObject::connect(&timer,SIGNAL(timeout()),this,SLOT(tick()));
 }
 
-bool rfid_reader::openCOMPort()
+bool Rfid_reader_dll::openCOMPort()
 {
     serialPort.setPortName(portName);
     serialPort.setQueryMode(QextSerialPort::EventDriven);
@@ -20,13 +28,14 @@ bool rfid_reader::openCOMPort()
     return returnValue;
 }
 
-void rfid_reader::closeCOMPort()
+void Rfid_reader_dll::closeCOMPort()
 {
     serialPort.close();
 }
 
-void rfid_reader::tick()
+void Rfid_reader_dll::tick()
 {
+
     if(ending)
     {
         serialPort.read(10);
@@ -78,13 +87,22 @@ void rfid_reader::tick()
             }else
             {
                 prevRFID = cardSerialNumber;
-                emit rfid(prevRFID);
+                QSqlQuery check_id;
+                check_id.prepare("SELECT * FROM users;");
+                check_id.exec();
+                while(check_id.next()){
+
+                   if(prevRFID == check_id.record().value(2))
+                        {
+                            emit rfid(prevRFID);
+                        }
+                }
             }
         }
     }
     serialPort.write("U",1);
 }
-bool rfid_reader::start()
+bool Rfid_reader_dll::start()
 {
     if(openCOMPort())
     {
@@ -97,7 +115,7 @@ bool rfid_reader::start()
     }
     return false;
 }
-void rfid_reader::stop()
+void Rfid_reader_dll::stop()
 {
    ending = true;
 
