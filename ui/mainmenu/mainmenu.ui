@@ -47,8 +47,8 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>150</width>
-         <height>50</height>
+         <width>250</width>
+         <height>100</height>
         </size>
        </property>
        <property name="maximumSize">
@@ -57,8 +57,18 @@
          <height>50</height>
         </size>
        </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+         <weight>75</weight>
+         <italic>false</italic>
+         <bold>true</bold>
+         <strikeout>false</strikeout>
+         <kerning>true</kerning>
+        </font>
+       </property>
        <property name="text">
-        <string>Myynti</string>
+        <string>Sale</string>
        </property>
        <attribute name="buttonGroup">
         <string notr="true">buttonGroup</string>
@@ -69,8 +79,8 @@
       <widget class="QPushButton" name="pushButton_product">
        <property name="minimumSize">
         <size>
-         <width>150</width>
-         <height>50</height>
+         <width>250</width>
+         <height>100</height>
         </size>
        </property>
        <property name="maximumSize">
@@ -79,8 +89,18 @@
          <height>50</height>
         </size>
        </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+         <weight>75</weight>
+         <italic>false</italic>
+         <bold>true</bold>
+         <strikeout>false</strikeout>
+         <kerning>true</kerning>
+        </font>
+       </property>
        <property name="text">
-        <string>Tuotehallinta</string>
+        <string>Product</string>
        </property>
        <attribute name="buttonGroup">
         <string notr="true">buttonGroup</string>
@@ -91,8 +111,8 @@
       <widget class="QPushButton" name="pushButton_salestrack">
        <property name="minimumSize">
         <size>
-         <width>150</width>
-         <height>50</height>
+         <width>250</width>
+         <height>100</height>
         </size>
        </property>
        <property name="maximumSize">
@@ -101,8 +121,18 @@
          <height>50</height>
         </size>
        </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+         <weight>75</weight>
+         <italic>false</italic>
+         <bold>true</bold>
+         <strikeout>false</strikeout>
+         <kerning>true</kerning>
+        </font>
+       </property>
        <property name="text">
-        <string>Myynnin seuranta</string>
+        <string>Sale tracking</string>
        </property>
        <attribute name="buttonGroup">
         <string notr="true">buttonGroup</string>
@@ -113,8 +143,8 @@
       <widget class="QPushButton" name="pushButton_kt_hallinta">
        <property name="minimumSize">
         <size>
-         <width>150</width>
-         <height>50</height>
+         <width>250</width>
+         <height>100</height>
         </size>
        </property>
        <property name="maximumSize">
@@ -123,8 +153,18 @@
          <height>50</height>
         </size>
        </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+         <weight>75</weight>
+         <italic>false</italic>
+         <bold>true</bold>
+         <strikeout>false</strikeout>
+         <kerning>true</kerning>
+        </font>
+       </property>
        <property name="text">
-        <string>Käyttäjien hallinta</string>
+        <string>Users</string>
        </property>
        <attribute name="buttonGroup">
         <string notr="true">buttonGroup</string>

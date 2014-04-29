@@ -19,6 +19,17 @@
    </item>
    <item row="6" column="1">
     <widget class="QPushButton" name="pushButton">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>20</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
      <property name="text">
       <string>Find event details</string>
      </property>
@@ -30,7 +41,7 @@
    <item row="4" column="1">
     <widget class="QLabel" name="label_3">
      <property name="text">
-      <string>Myyntilistat:</string>
+      <string>Sale events</string>
      </property>
     </widget>
    </item>
@@ -44,14 +55,14 @@
       </font>
      </property>
      <property name="text">
-      <string>Myyntitapahtumat</string>
+      <string>Sale event</string>
      </property>
     </widget>
    </item>
    <item row="7" column="1">
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>Myyntirivit:</string>
+      <string>Sale event rows</string>
      </property>
     </widget>
    </item>
