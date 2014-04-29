@@ -10,9 +10,10 @@ loginpage::loginpage(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::loginpage)
 {
+	reading_rfid = false;
     ui->setupUi(this);
     QObject::connect(ui->pushButton, SIGNAL(clicked()),this, SLOT(sendLogin()));
-    rfReader = new Rfid_reader_dll("COM5");
+    rfReader = new Rfid_reader_dll("/dev/ttyUSB0");
     rfReader->start();
     QObject::connect(rfReader, SIGNAL(norfid()),this, SLOT(rfid_noup()));
     QObject::connect(rfReader, SIGNAL(rfid(QString)),this, SLOT(rfid_ok(QString)));
@@ -41,7 +42,10 @@ void loginpage::rfid_ok(QString )
     if(reading_rfid)
     {
     }else
-    emit loginClicked(1);
+	 {
+		qDebug() << "rfid login";
+    	emit loginClicked(1);
+	 }
 }
 
 void loginpage::read_rfid(std::function<void(QString)>h)

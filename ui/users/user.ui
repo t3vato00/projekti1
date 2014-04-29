@@ -29,14 +29,14 @@
    <item row="3" column="4">
     <widget class="QLabel" name="label_4">
      <property name="text">
-      <string>Salasana</string>
+      <string>Password</string>
      </property>
     </widget>
    </item>
    <item row="3" column="3">
     <widget class="QLabel" name="label_3">
      <property name="text">
-      <string>Kortti ID</string>
+      <string>Card ID</string>
      </property>
     </widget>
    </item>
@@ -46,7 +46,7 @@
    <item row="3" column="0">
     <widget class="QLabel" name="label_2">
      <property name="text">
-      <string>Nimi</string>
+      <string>Name</string>
      </property>
     </widget>
    </item>
@@ -62,7 +62,7 @@
       </sizepolicy>
      </property>
      <property name="text">
-      <string>Lisää</string>
+      <string>Add</string>
      </property>
     </widget>
    </item>
@@ -75,7 +75,7 @@
       </sizepolicy>
      </property>
      <property name="text">
-      <string>Tyhjennä</string>
+      <string>Clear</string>
      </property>
     </widget>
    </item>
@@ -95,11 +95,37 @@
    <item row="2" column="5">
     <widget class="QPushButton" name="pushButton">
      <property name="text">
-      <string>Lue kortti</string>
+      <string>Read card</string>
      </property>
     </widget>
    </item>
   </layout>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>30</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Käyttäjien hallinta</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>140</y>
+     <width>93</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>PushButton</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

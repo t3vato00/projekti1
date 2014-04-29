@@ -19,7 +19,7 @@ public:
     explicit loginpage(QWidget *parent = 0);
     ~loginpage();
     bool reading_rfid;
-    std::function<void(QString)>read_rfid_handler;
+    std::function<void(QString)> read_rfid_handler;
     void read_rfid( std::function<void(QString)> h );
 
 private:

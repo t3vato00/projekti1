@@ -7,6 +7,7 @@
 #include <QtSql/QSqlDriver>
 #include <QtSql/QSqlQuery>
 #include <QtSql/QSqlRecord>
+#include <QDebug>
 
 Rfid_reader_dll::Rfid_reader_dll(QString pPort)
 {
@@ -85,16 +86,20 @@ void Rfid_reader_dll::tick()
 
             }else
             {
+					qDebug() << "rfid:" << cardSerialNumber;
                 prevRFID = cardSerialNumber;
                 QSqlQuery check_id;
                 check_id.prepare("SELECT * FROM users;");
                 check_id.exec();
                 while(check_id.next()){
 
-                   if(prevRFID == check_id.record().value(2))
+                   if(cardSerialNumber == check_id.record().value(1))
                         {
-                            emit rfid(prevRFID);
+									qDebug() << "emit rfid:" << cardSerialNumber;
+                            emit rfid(cardSerialNumber);
                         }
+						 else
+							 qDebug() << "not rfid equal:" << cardSerialNumber << check_id.record().value(1);
                 }
             }
         }

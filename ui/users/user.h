@@ -50,6 +50,7 @@ private:
     bool stop_timer;
     QTimer * Timer;
     QMessageBox msgr;
+
 };
 
 #endif // KAYTTAJA_H

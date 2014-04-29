@@ -37,6 +37,15 @@ create table sales_row(
  ON DELETE CASCADE ON UPDATE cascade
 );
 
+CREATE TABLE users
+(
+	name VARCHAR(200) NOT NULL
+	, card_id CHAR(10) NOT NULL
+	, user_password VARCHAR(50) NOT NULL
+
+);
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON users TO 'inventaari'@'%';
 GRANT SELECT, INSERT, UPDATE, DELETE ON sales_event TO 'inventaari'@'%';
 GRANT SELECT, INSERT, UPDATE, DELETE ON sales_row TO 'inventaari'@'%';
 GRANT SELECT, INSERT, UPDATE, DELETE ON products TO 'inventaari'@'%';
