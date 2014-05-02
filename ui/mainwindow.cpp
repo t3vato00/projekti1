@@ -1,5 +1,5 @@
 #include "ui/mainwindow.h"
-#include <qstackedwidget.h>
+#include <QStackedWidget>
 #include <QtGui>
 #include <qtoolbar.h>
 #include <qaction.h>
@@ -20,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent)
    myynti = new sale();
    kayttajat = new user();
    salestrack = new sales_tracking();
+   sell = new Selling();
 
    stackedWidget = new QStackedWidget;
    stackedWidget->insertWidget(0,login_page);
@@ -28,14 +29,16 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent)
    stackedWidget->insertWidget(3,myynti);
    stackedWidget->insertWidget(4,kayttajat);
    stackedWidget->insertWidget(5,salestrack);
+   stackedWidget->insertWidget(6,sell);
 
    QObject::connect(login_page, SIGNAL(loginClicked(int)),stackedWidget, SLOT(setCurrentIndex(int)));
    QObject::connect(login_page, SIGNAL(loginClicked(int)),this, SLOT(show_toolbar()));
    QObject::connect(mainpage, SIGNAL(send_page_index(int)),stackedWidget, SLOT(setCurrentIndex(int)));
    QObject::connect(this, SIGNAL(to_main_signal(int)),stackedWidget, SLOT(setCurrentIndex(int)));
 
-   //setFixedHeight(800);
-   //setFixedWidth(1200);
+   setFixedHeight(768);
+   setFixedWidth(1366);
+   this->showFullScreen();
    setCentralWidget(stackedWidget);
 }
 
@@ -78,8 +81,8 @@ bool MainWindow::createConnection(){
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
     db.setHostName("localhost");
     db.setDatabaseName("inventaari");
-    db.setUserName("inventaari");
-    db.setPassword("asdklielxkjoijdneidkod");
+    db.setUserName("root");
+    db.setPassword("");//asdklielxkjoijdneidkod
     if (!db.open()) {
         qDebug() << "Database error occurred";
         return false;

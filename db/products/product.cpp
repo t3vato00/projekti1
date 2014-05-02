@@ -124,7 +124,10 @@ parse_stock(QString const stock)
 void product::set_by_name(QString nimi)
 {
     QSqlQuery query;
-    query.exec("select * from products where name='"+nimi+"'");
+
+    query.prepare("select * from products where name=?");
+    query.bindValue(0,nimi);
+    query.exec();
     while (query.next()){
         this->_code = query.value(0).toString();
         this->_name = query.value(1).toString();

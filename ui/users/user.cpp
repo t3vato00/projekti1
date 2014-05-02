@@ -16,6 +16,10 @@
 #include "ui_user.h"
 #include "rfid/rfid_reader.h"
 
+#include <qnetwork.h>
+#include <QNetworkAccessManager>
+#include <QByteArray>
+
 user::user(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::user),
@@ -39,6 +43,7 @@ user::user(QWidget *parent) :
     load_users();
 
 }
+
 void user::load_users()
 {
     QSqlQuery query;
@@ -73,6 +78,7 @@ void user::add_row_to_list(QString name, QString card_id, QString password)
     ui->userView->setItem(row_amount,2,userPassword);
 
 }
+
 user::~user()
 {
     delete ui;

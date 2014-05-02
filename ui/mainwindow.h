@@ -9,6 +9,7 @@
 #include "ui/sales/sales_tracking.h"
 #include "ui/users/user.h"
 #include "ui/mainmenu/mainmenu.h"
+#include "ui/sales/selling.h"
 
 class MainWindow : public QMainWindow
 {    Q_OBJECT
@@ -17,7 +18,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     bool createConnection();
-     user*  kayttajat;
+
 
 private slots:
     void to_mainmenu();
@@ -34,10 +35,12 @@ private:
     void create_actions();
     loginpage *login_page;
     mainmenu * mainpage;
+    user * kayttajat;
     sales_tracking *salestrack;
     product_management *tuote;
     sale* myynti;
     QStackedWidget *stackedWidget;
+    Selling *sell;
 };
 
 #endif // MAINWINDOW_H

@@ -135,8 +135,13 @@ setData( const QModelIndex & index, const QVariant & value, int role )
 					database_error( sql_ch_code.lastError() );
 					return false;
 				}
-				if( sql_ch_code.numRowsAffected() == 0 ) return row_dissapeared(row);
+				if( sql_ch_code.numRowsAffected() == 0 )
+				{
+					sql_ch_code.finish();
+					return row_dissapeared(row);
+				}
 				_data[row]->set_barcode(newcode);
+				sql_ch_code.finish();
 				emit dataChanged( index, index );
 				return true;
 			}
@@ -177,11 +182,13 @@ setData( const QModelIndex & index, const QVariant & value, int role )
 					}
 					_data[row]->set_name(sql_sl_name.value(0).toString());
 					_data[row]->name_changed = true;
+					sql_sl_name.finish();
 					emit dataChanged( index, index );
 					return true;
 				}
 				_data[row]->set_name(newname);
 				_data[row]->name_changed = false;
+				sql_ch_name.finish();
 				emit dataChanged( index, index );
 				return true;
 			}
@@ -222,11 +229,13 @@ setData( const QModelIndex & index, const QVariant & value, int role )
 					}
 					_data[row]->set_price(sql_sl_price.value(0).toDouble());
 					_data[row]->price_changed = true;
+					sql_sl_price.finish();
 					emit dataChanged( index, index );
 					return true;
 				}
 				_data[row]->set_price(newprice);
 				_data[row]->price_changed = false;
+				sql_ch_price.finish();
 				emit dataChanged( index, index );
 				return true;
 			}
@@ -267,11 +276,13 @@ setData( const QModelIndex & index, const QVariant & value, int role )
 					}
 					_data[row]->set_stock(sql_sl_stock.value(0).toUInt());
 					_data[row]->stock_changed = true;
+					sql_sl_stock.finish();
 					emit dataChanged( index, index );
 					return true;
 				}
 				_data[row]->set_stock(newstock);
 				_data[row]->stock_changed = false;
+				sql_ch_stock.finish();
 				emit dataChanged( index, index );
 				return true;
 			}
@@ -369,16 +380,41 @@ setSearchString( QString const & str )
 
 	bool min_rppresent[rpsize];
 	bool max_rppresent[rpsize];
+	bool low_rppresent[rpsize];
+	bool high_rppresent[rpsize];
 	double min_rps[rpsize];
 	double max_rps[rpsize];
+	double low_rps[rpsize];
+	double high_rps[rpsize];
 
 	for( ranged_prop rpi = rpzero; rpi < rpsize; rpi = inc_ranged_prop(rpi) )
 	{
 		min_rppresent[rpi] = false;
 		max_rppresent[rpi] = false;
+		low_rppresent[rpi] = false;
+		high_rppresent[rpi] = false;
 	}
 
 	std::vector<QString> wordSearch;
+	QString barcode;
+
+	auto set_low = [&]( ranged_prop rp, double x ) -> void
+	{
+		if( min_rppresent[rp] )
+			low_rps[rp] = std::max(low_rps[rp], x);
+		else
+			low_rps[rp] = x;
+		low_rppresent[rp] = true;
+	};
+
+	auto set_high = [&]( ranged_prop rp, double x ) -> void
+	{
+		if( max_rppresent[rp] )
+			high_rps[rp] = std::min(high_rps[rp], x);
+		else
+			high_rps[rp] = x;
+		high_rppresent[rp] = true;
+	};
 
 	auto set_min = [&]( ranged_prop rp, double x ) -> void
 	{
@@ -468,6 +504,7 @@ setSearchString( QString const & str )
 
 	auto parse_op = [&]( QString str ) -> bool
 	{
+		//qDebug() << "Op:" << str << "input:" << nstr.midRef(index);
 		if( nstr.midRef(index).startsWith( str, Qt::CaseInsensitive ) )
 		{
 			bool ok = true;
@@ -488,28 +525,94 @@ setSearchString( QString const & str )
 		return false;
 	};
 
+	auto parse_low_op = [&]( bool rev, std::function<void(ranged_prop,double)> & func ) -> bool
+	{
+		if( parse_op( "<" ) )
+		{
+			if(rev)
+				func = set_low;
+			else
+				func = set_high;
+			return true;
+		}
+		else if( parse_op("<=") )
+		{
+			if(rev)
+				func = set_min;
+			else
+				func = set_max;
+			return true;
+		}
+		return false;
+	};
+
+	auto parse_high_op = [&]( bool rev, std::function<void(ranged_prop,double)> & func ) -> bool
+	{
+		if( parse_op( ">" ) )
+		{
+			if(rev)
+				func = set_low;
+			else
+				func = set_high;
+			return true;
+		}
+		else if( parse_op(">=") )
+		{
+			if(rev)
+				func = set_min;
+			else
+				func = set_max;
+			return true;
+		}
+		return false;
+	};
+
 	while( index < end )
 	{
 		ranged_prop rp;
 
 		skip_ws();
+		if( index + 12 <= end )
+			if( product::check_barcode( nstr.mid(index,12) ) )
+			{
+				barcode = nstr.mid(index,12);
+				index += 12;
+
+				continue;
+			}
+
 		if( static_cast<unsigned>(nstr.at(index).digitValue()) < 10 )
 		{
 			double low = parse_number();
 			skip_ws();
-			if( parse_op("<") )
+			std::function<void(ranged_prop,double)> set_opval; 
+			if( parse_low_op(true,set_opval) )
 			{
 				skip_ws();
 				rp = parse_ranged_prop();
 				if( rp == rpinvalid ) return false;
-				set_min( rp, low );
+				set_opval( rp, low );
 				skip_ws();
-				if( parse_op("<") )
+				if( parse_low_op(false,set_opval) )
 				{
 					skip_ws();
 					double high = parse_number();
 
-					set_max( rp, high );
+					set_opval( rp, high );
+				}
+			} else if( parse_high_op(false,set_opval) )
+			{
+				skip_ws();
+				rp = parse_ranged_prop();
+				if( rp == rpinvalid ) return false;
+				set_opval( rp, low );
+				skip_ws();
+				if( parse_high_op(true,set_opval) )
+				{
+					skip_ws();
+					double high = parse_number();
+
+					set_opval( rp, high );
 				}
 			}
 			else return false;
@@ -521,12 +624,20 @@ setSearchString( QString const & str )
 		{
 			skip_ws();
 
-			if( parse_op("<") )
+			std::function<void(ranged_prop,double)> set_opval; 
+			if( parse_low_op(false,set_opval) )
+			{
+				skip_ws();
+				double low = parse_number();
+
+				set_opval( rp, low );
+			}
+			else if( parse_high_op(true,set_opval) )
 			{
 				skip_ws();
 				double high = parse_number();
 
-				set_max( rp, high );
+				set_opval( rp, high );
 			}
 			else wordSearch.push_back(ranged_prop_string(rp));
 
@@ -546,11 +657,27 @@ setSearchString( QString const & str )
 	QString sep_and = " AND";
 	std::vector<QVariant> params;
 
+	if( low_rppresent[rpprice] )
+	{
+		qDebug() << "low price: " << low_rps[rpprice];
+		sql += sep;
+		sql += " price > ?";
+		sep = sep_and;
+		params.push_back(low_rps[rpprice]);
+	}
+	if( high_rppresent[rpprice] )
+	{
+		qDebug() << "high price: " << high_rps[rpprice];
+		sql += sep;
+		sql += " price < ?";
+		sep = sep_and;
+		params.push_back(high_rps[rpprice]);
+	}
 	if( min_rppresent[rpprice] )
 	{
 		qDebug() << "min price: " << min_rps[rpprice];
 		sql += sep;
-		sql += " price > ?";
+		sql += " price >= ?";
 		sep = sep_and;
 		params.push_back(min_rps[rpprice]);
 	}
@@ -558,29 +685,53 @@ setSearchString( QString const & str )
 	{
 		qDebug() << "max price: " << max_rps[rpprice];
 		sql += sep;
-		sql += " price < ?";
+		sql += " price <= ?";
 		sep = sep_and;
 		params.push_back(max_rps[rpprice]);
 	}
-	if( min_rppresent[rpstock] )
+	if( low_rppresent[rpstock] )
 	{
-		qDebug() << "min stock: " << min_rps[rpstock];
+		qDebug() << "min stock: " << low_rps[rpstock];
 		sql += sep;
 		sql += " stock > ?";
+		sep = sep_and;
+		params.push_back(low_rps[rpstock]);
+	}
+	if( high_rppresent[rpstock] )
+	{
+		qDebug() << "max stock:" << high_rps[rpstock];
+		sql += sep;
+		sql += " stock < ?";
+		sep = sep_and;
+		params.push_back(high_rps[rpstock]);
+	}
+	if( min_rppresent[rpstock] )
+	{
+		qDebug() << "min stock:" << min_rps[rpstock];
+		sql += sep;
+		sql += " stock >= ?";
 		sep = sep_and;
 		params.push_back(min_rps[rpstock]);
 	}
 	if( max_rppresent[rpstock] )
 	{
-		qDebug() << "max stock: " << max_rps[rpstock];
+		qDebug() << "max stock:" << max_rps[rpstock];
 		sql += sep;
-		sql += " stock < ?";
+		sql += " stock <= ?";
 		sep = sep_and;
 		params.push_back(max_rps[rpstock]);
 	}
+	if( !barcode.isNull() )
+	{
+		qDebug() << "barcode:" << barcode;
+		sql += sep;
+		sql += " code = ?";
+		sep = sep_and;
+		params.push_back(barcode);
+	}
 	for( QString const str : wordSearch )
 	{
-		qDebug() << "word: " << str;
+		qDebug() << "word:" << str;
 		sql += sep;
 		sql += " name LIKE ?";
 		sep = sep_and;
@@ -601,14 +752,15 @@ void
 product_model::
 refresh()
 {
-	beginResetModel();
 	query.exec();
 	if( query.lastError().isValid() )
 	{
+		query.finish();
 		qCritical( "Database error!" );
 		return;
 	}
 
+	beginResetModel();
 	for( auto prod : _data )
 		delete prod;
 	_data.clear();
@@ -617,5 +769,46 @@ refresh()
 
 	query.finish();
 	endResetModel();
+}
+
+bool
+product_model::
+removeRows( int row, int count, QModelIndex const & parent )
+{
+	if( parent.isValid() )
+		return false;
+
+	if( count == 0 )
+		return true;
+
+	if( static_cast<unsigned>(row + count) > _data.size() )
+	{
+		qCritical( "product_model: Tried to remove non existent row!" );
+		return false;
+	}
+
+	QString sql = "DELETE FROM products";
+	QString sep = " WHERE";
+	for( auto prod = _data.begin()+row; prod < _data.begin()+row+count; prod += 1 )
+	{
+		sql += sep + " code = ?";
+		sep = " AND";
+	}
+	QSqlQuery del( sql );
+	for( auto prod = _data.begin()+row; prod < _data.begin()+row+count; prod += 1 )
+		del.addBindValue( (*prod)->barcode() );
+	if( del.exec() )
+	{
+		beginRemoveRows(QModelIndex(),row,row+count-1);
+		_data.erase( _data.begin()+row, _data.begin()+row+count );
+		endRemoveRows();
+		del.finish();
+	}
+	else
+	{
+		database_error( del.lastError() );
+		return false;
+	}
+	return true;
 }
 

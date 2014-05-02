@@ -2,6 +2,9 @@
 #define KAYTTAJA_H
 
 #include <QDialog>
+
+#include <QNetworkReply>
+
 #include <QSqlQuery>
 #include <QCryptographicHash>
 #include <functional>
@@ -10,6 +13,7 @@
 #include <QTimer>
 #include "ui/login/loginpage.h"
 #include "rfid/rfid_reader.h"
+
 
 namespace Ui {
 class user;
@@ -48,6 +52,7 @@ private:
     bool stop_timer;
     QTimer * Timer;
     QMessageBox msgr;
+
 };
 
 #endif // KAYTTAJA_H

@@ -29,6 +29,8 @@ public:
 
 	bool setSearchString( QString const & str );
 
+	bool removeRows( int row, int count, QModelIndex const & parent );
+
 public slots:
 	void refresh();
 
