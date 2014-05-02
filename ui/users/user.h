@@ -28,8 +28,6 @@ private slots:
 
     void on_clear_clicked();
 
-    void on_pushButton_clicked();
-
     void closeMessage()
     {
         msgr.close();
@@ -42,7 +40,7 @@ private:
     QSqlQuery add_user;
     QCryptographicHash * hash;
     rfid_reader * riider;
-    loginpage * login;
+    loginpage login;
     int row_amount;
     void load_users();
     void add_row_to_list(QString, QString, QString);

@@ -140,21 +140,3 @@ QString user::hash_pass(QString pass)
     QByteArray hashed_pass = hash->hash(pass.toUtf8(),QCryptographicHash::Sha1);
     return hashed_pass.toHex();
 }
-
-void user::on_pushButton_clicked()
-{
-    bool b;
-    //int count_down = 5;
-    //Timer = new QTimer(this);
-    login->read_rfid([b,this](QString rfid2){
-    QSqlQuery dumb;
-    dumb.prepare("INSERT INTO users (id_dumb) VALUES (?);");
-    dumb.bindValue(3,rfid2);
-    dumb.exec();
-    dumb.finish();
-    this->login;
-    });
-
-    //msgr.setText("Testi");
-    //msgr.show();
-}
