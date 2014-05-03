@@ -36,9 +36,9 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent)
    QObject::connect(mainpage, SIGNAL(send_page_index(int)),stackedWidget, SLOT(setCurrentIndex(int)));
    QObject::connect(this, SIGNAL(to_main_signal(int)),stackedWidget, SLOT(setCurrentIndex(int)));
 
-   setFixedHeight(768);
-   setFixedWidth(1366);
-   this->showFullScreen();
+   setFixedHeight(600);
+   setFixedWidth(800);
+   //this->showFullScreen();
    setCentralWidget(stackedWidget);
 }
 

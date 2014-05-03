@@ -21,6 +21,7 @@ public slots:
 signals:
     void send_page_index(int page_index);
 
+
 private:
     Ui::mainmenu *ui;
 };

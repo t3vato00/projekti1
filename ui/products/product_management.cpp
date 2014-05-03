@@ -24,7 +24,7 @@ product_management(QWidget *parent) :
 	update_filter();
 	refresh_view();
 
-	insert.prepare("INSERT INTO products(code, name, price, stock) VALUES(?,?,?,?);");
+    insert.prepare("INSERT INTO products(code, name, price, stock, description) VALUES(?,?,?,?,?);");
 	QObject::connect(ui->add_code, &QLineEdit::textChanged, this, &product_management::add_code_changed);
 	add_code_changed();
 	QObject::connect(ui->add_name, &QLineEdit::textChanged, this, &product_management::add_name_changed);
@@ -168,6 +168,7 @@ add_product()
 	insert.bindValue(1,add_name);
 	insert.bindValue(2,add_price);
 	insert.bindValue(3,add_stock);
+    insert.bindValue(4,ui->add_desc->text());
 	if(!insert.exec())
 		database_error( insert.lastError() );
 	insert.finish();
