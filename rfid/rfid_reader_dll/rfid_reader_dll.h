@@ -3,7 +3,7 @@
 
 #include <QThread>
 #include <QTimer>
-#include "../qextserial/qextserialport.h"
+#include "../../qextserial/qextserialport.h"
 #include "../../ui/login/loginpage.h"
 
 #include "rfid_reader_dll_global.h"
