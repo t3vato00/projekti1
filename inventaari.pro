@@ -28,7 +28,9 @@ SOURCES += main.cpp \
     db/sales/sales_row.cpp \
     db/sales/sales_event.cpp \
     ui/sales/sales_tracking.cpp \
-    rfid/rfid_reader_dll/rfid_reader_dll.cpp
+    rfid/rfid_reader_dll/rfid_reader_dll.cpp \
+    ui/sales/selling.cpp
+
 
 HEADERS  += \
     ui/mainwindow.h \
@@ -45,7 +47,8 @@ HEADERS  += \
     db/sales/sales_event.h \
     ui/sales/sales_tracking.h \
     rfid/rfid_reader_dll/rfid_reader_dll.h \
-    rfid/rfid_reader_dll/rfid_reader_dll_global.h
+    rfid/rfid_reader_dll/rfid_reader_dll_global.h \
+    ui/sales/selling.h
 
 RESOURCES += \
     resource.qrc
@@ -56,8 +59,8 @@ FORMS += \
     ui/login/loginpage.ui \
     ui/sales/sale.ui \
     ui/users/user.ui \
-    ui/sales/sales_tracking.ui
-
+    ui/sales/sales_tracking.ui \
+    ui/sales/selling.ui
 
 INCLUDEPATH += $$PWD/qextserial
 DEPENDPATH += $$PWD/qextserial

@@ -17,7 +17,7 @@
 #include "rfid/rfid_reader.h"
 
 #include <qnetwork.h>
-#include <QNetworkAccessManager>
+#include <QtNetwork/QNetworkAccessManager>
 #include <QByteArray>
 
 user::user(QWidget *parent) :

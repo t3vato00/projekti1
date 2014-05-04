@@ -3,7 +3,7 @@
 
 #include <QDialog>
 
-#include <QNetworkReply>
+#include <QtNetwork/QNetworkReply>
 
 #include <QSqlQuery>
 #include <QCryptographicHash>
