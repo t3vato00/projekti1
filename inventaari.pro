@@ -6,7 +6,7 @@
 
 QT       += core gui sql
  QMAKE_CXXFLAGS += -std=c++11
-
+QT += network
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = inventaari
@@ -27,7 +27,8 @@ SOURCES += main.cpp \
     db/utilities.cpp \
     db/sales/sales_row.cpp \
     db/sales/sales_event.cpp \
-    ui/sales/sales_tracking.cpp
+    ui/sales/sales_tracking.cpp \
+    rfid/rfid_reader_dll/rfid_reader_dll.cpp
 
 HEADERS  += \
     ui/mainwindow.h \
@@ -42,7 +43,9 @@ HEADERS  += \
     db/utilities.h \
     db/sales/sales_row.h \
     db/sales/sales_event.h \
-    ui/sales/sales_tracking.h
+    ui/sales/sales_tracking.h \
+    rfid/rfid_reader_dll/rfid_reader_dll.h \
+    rfid/rfid_reader_dll/rfid_reader_dll_global.h
 
 RESOURCES += \
     resource.qrc
