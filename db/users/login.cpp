@@ -1,6 +1,7 @@
 
 #include <db/users/login.h>
 #include <db/utilities.h>
+#include <rfid/rfid_reader_dll.h>
 #include <QDebug>
 
 login * login::inst = nullptr;
@@ -10,7 +11,11 @@ login()
 : qcard( "SELECT name FROM users WHERE card_id = ?;" )
 {
 	qDebug() << "login init";
+<<<<<<< HEAD
     reader = rfid_reader::create("COM11");///dev/ttyUSB0
+=======
+	reader = rfid_reader_dll::create("/dev/ttyUSB0");
+>>>>>>> topi/master
 	QObject::connect(reader,&rfid_reader::rfid,this,&login::rfid);
 	QObject::connect(reader,&rfid_reader::norfid,this,&login::norfid);
 	QObject::connect(this,&login::show_card_dialog,[]( read_rfid_status st ) { qDebug() << "card dialog:" << st ; });
@@ -22,7 +27,7 @@ login::
 ~login()
 {
 	reader->stop();
-	rfid_reader::destroy(reader);
+	rfid_reader_dll::destroy(reader);
 }
 
 void
@@ -39,6 +44,7 @@ rfid( QString id )
 			{
 				qDebug() << "login: database error!";
 				database_error( qcard.lastError() );
+				return;
 			}
 			if( !qcard.next() )
 			{
@@ -47,6 +53,7 @@ rfid( QString id )
 			}
 
 			QString name = qcard.value(0).toString();
+			qcard.finish();
 			logged_user = user( name, id );
 			emit logged_in( logged_user );
 			logged = true;
@@ -105,6 +112,7 @@ read_rfid( std::function<void(QString)> h )
 	if( !logged )
 		qFatal( "called read_rfid while not logged in!" );
 
+	read_rfid_handler = h;
 	read_stat = new_card;
 	emit show_card_dialog(read_stat);
 }
