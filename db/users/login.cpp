@@ -10,7 +10,7 @@ login()
 : qcard( "SELECT name FROM users WHERE card_id = ?;" )
 {
 	qDebug() << "login init";
-	reader = rfid_reader::create("/dev/ttyUSB0");
+    reader = rfid_reader::create("COM11");///dev/ttyUSB0
 	QObject::connect(reader,&rfid_reader::rfid,this,&login::rfid);
 	QObject::connect(reader,&rfid_reader::norfid,this,&login::norfid);
 	QObject::connect(this,&login::show_card_dialog,[]( read_rfid_status st ) { qDebug() << "card dialog:" << st ; });
