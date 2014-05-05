@@ -12,8 +12,10 @@ TEMPLATE = lib
 DEFINES += RFID_READER_DLL_LIBRARY
 
 SOURCES += rfid/rfid_reader.cpp
+SOURCES += rfid/rfid_reader_dll.cpp
 
 HEADERS += rfid/rfid_reader.h
+HEADERS += rfid/rfid_reader_dll.h
 HEADERS += rfid/rfid_reader_global.h
 
 unix {

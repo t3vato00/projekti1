@@ -104,17 +104,3 @@ void rfid_reader::stop()
 
 }
 
-rfid_reader *
-rfid_reader::
-create(QString pPort)
-{
-	return new rfid_reader(pPort);
-}
-
-void
-rfid_reader::
-destroy(rfid_reader * t)
-{
-	delete t;
-}
-
