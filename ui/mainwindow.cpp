@@ -1,5 +1,5 @@
 #include "ui/mainwindow.h"
-#include <qstackedwidget.h>
+#include <QStackedWidget>
 #include <QtGui>
 #include <qtoolbar.h>
 #include <qaction.h>
@@ -15,7 +15,6 @@
 MainWindow::MainWindow(QWidget *parent):QMainWindow(parent)
 {
 	createConnection();
-
 	login_page = new loginpage();
 	mainpage = new mainmenu();
 	tuote = new product_management();
@@ -23,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent)
 	card_dialog = new read_card_dialog();
 	kayttajat = new user_management();
 	salestrack = new sales_tracking();
+   sell = new Selling();
 
 	stackedWidget = new QStackedWidget;
 	stackedWidget->insertWidget(0,login_page);
@@ -31,7 +31,8 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent)
 	stackedWidget->insertWidget(3,myynti);
 	stackedWidget->insertWidget(4,kayttajat);
 	stackedWidget->insertWidget(5,salestrack);
-	stackedWidget->insertWidget(6,card_dialog);
+   stackedWidget->insertWidget(6,sell);
+	stackedWidget->insertWidget(7,card_dialog);
 
 	auto l = &login::singleton();
 	QObject::connect(l, &login::logged_in, this, &MainWindow::login);

@@ -11,6 +11,7 @@
 #include "ui/users/read_card_dialog.h"
 #include "ui/users/user_management.h"
 #include "ui/mainmenu/mainmenu.h"
+#include "ui/sales/selling.h"
 
 class MainWindow : public QMainWindow
 {    Q_OBJECT
@@ -44,6 +45,7 @@ private:
     sale* myynti;
     QStackedWidget *stackedWidget;
 	 int saved_view;
+    Selling *sell;
 };
 
 #endif // MAINWINDOW_H

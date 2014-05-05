@@ -12,14 +12,14 @@ class product
 
 public:
 
-	inline product()
-	: _code(""), _name(""), _price(0), _stock(0)
-	{
-	}
+    inline product()
+    : _code(""), _name(""), _price(0), _stock(0)
+    {
+    }
 
 	inline product(QString code, QString name, double price, int stock)
 	: _code(code), _name(name), _price(price), _stock(stock)
-	{
+    {
 	}
 
 	bool check_barcode();
