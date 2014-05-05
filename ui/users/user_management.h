@@ -2,37 +2,32 @@
 #define KAYTTAJA_H
 
 #include <QDialog>
-
-#include <QtNetwork/QNetworkReply>
-
 #include <QSqlQuery>
 #include <QCryptographicHash>
 #include <functional>
 #include <QMessageBox>
 
 #include <QTimer>
-#include "ui/login/loginpage.h"
-#include "rfid/rfid_reader.h"
-
+#include <db/users/login.h>
 
 namespace Ui {
-class user;
+class user_management;
 }
 
-class user : public QDialog
+class user_management : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit user(QWidget *parent = 0);
-    ~user();
+    explicit user_management(QWidget *parent = 0);
+    ~user_management();
 
 private slots:
     void on_add_user_clicked();
 
     void on_clear_clicked();
 
-    void on_pushButton_clicked();
+    void on_read_card();
 
     void closeMessage()
     {
@@ -40,13 +35,11 @@ private slots:
     }
 
 private:
-    Ui::user *ui;
+    Ui::user_management *ui;
     QString nimi;
     QString kortti_id;
     QSqlQuery add_user;
     QCryptographicHash * hash;
-    rfid_reader * riider;
-    loginpage * login;
     int row_amount;
     void load_users();
     void add_row_to_list(QString, QString, QString);

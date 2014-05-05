@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "rfid/rfid_reader.h"
+#include <QDebug>
 
 rfid_reader::rfid_reader(QString pPort)
 {
@@ -102,3 +103,18 @@ void rfid_reader::stop()
    ending = true;
 
 }
+
+rfid_reader *
+rfid_reader::
+create(QString pPort)
+{
+	return new rfid_reader(pPort);
+}
+
+void
+rfid_reader::
+destroy(rfid_reader * t)
+{
+	delete t;
+}
+

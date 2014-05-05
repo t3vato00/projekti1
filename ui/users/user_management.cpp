@@ -12,17 +12,15 @@
 #include <QDebug>
 #include <QSqlError>
 
-#include "ui/users/user.h"
-#include "ui_user.h"
+#include "ui/users/user_management.h"
+#include "ui_user_management.h"
 #include "rfid/rfid_reader.h"
 
-#include <qnetwork.h>
-#include <QtNetwork/QNetworkAccessManager>
 #include <QByteArray>
 
-user::user(QWidget *parent) :
+user_management::user_management(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::user),
+    ui(new Ui::user_management),
        add_user()
 {
 
@@ -41,10 +39,10 @@ user::user(QWidget *parent) :
         ui->userView->setColumnWidth(j,443);
     }
     load_users();
-
+	 QObject::connect(ui->readCard, &QPushButton::clicked, this, &user_management::on_read_card);
 }
 
-void user::load_users()
+void user_management::load_users()
 {
     QSqlQuery query;
     query.prepare("SELECT * FROM users;");
@@ -59,7 +57,7 @@ void user::load_users()
 
 }
 
-void user::add_row_to_list(QString name, QString card_id, QString password)
+void user_management::add_row_to_list(QString name, QString card_id, QString password)
 {
 
     ui->userView->insertRow(row_amount);
@@ -79,7 +77,7 @@ void user::add_row_to_list(QString name, QString card_id, QString password)
 
 }
 
-user::~user()
+user_management::~user_management()
 {
     delete ui;
 }
@@ -108,7 +106,7 @@ void invalid_Value( QString const msg )
     msgb.exec();
 }
 
-void user::on_add_user_clicked()
+void user_management::on_add_user_clicked()
 {
     QString name = normalize_string_input(ui->lineName->text());
     QString card_id = normalize_string_input(ui->lineID->text());
@@ -134,31 +132,25 @@ void user::on_add_user_clicked()
 
 }
 
-void user::on_clear_clicked()
+void user_management::on_clear_clicked()
 {
     ui->lineName->setText("");
     ui->lineID->setText("");
     ui->linePass->setText("");
 }
 
-QString user::hash_pass(QString pass)
+QString user_management::hash_pass(QString pass)
 {
     QByteArray hashed_pass = hash->hash(pass.toUtf8(),QCryptographicHash::Sha1);
     return hashed_pass.toHex();
 }
 
-void user::on_pushButton_clicked()
+void user_management::on_read_card()
 {
-    bool b;
     //int count_down = 5;
     //Timer = new QTimer(this);
-    login->read_rfid([b,this](QString rfid2){
-    QSqlQuery dumb;
-    dumb.prepare("INSERT INTO users (id_dumb) VALUES (?);");
-    dumb.bindValue(3,rfid2);
-    dumb.exec();
-    dumb.finish();
-    this->login;
+	 login::singleton().read_rfid([this](QString rfid2){
+		ui->lineID->setText(rfid2);	
     });
 
     //msgr.setText("Testi");
