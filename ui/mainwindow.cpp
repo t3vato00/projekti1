@@ -65,7 +65,7 @@ show_card_dialog( login::read_rfid_status stat )
 	if( stat == login::new_card )
 	{
 		saved_view = stackedWidget->currentIndex();
-		emit stackedWidget->setCurrentIndex( 6 );
+		emit stackedWidget->setCurrentIndex( 7 );
 	}
 	else if( stat == login::not_reading )
 		emit stackedWidget->setCurrentIndex( saved_view );
