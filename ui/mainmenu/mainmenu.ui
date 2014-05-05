@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>712</width>
-    <height>503</height>
+    <width>962</width>
+    <height>605</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -31,13 +31,13 @@
   <property name="modal">
    <bool>false</bool>
   </property>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>280</x>
      <y>180</y>
-     <width>508</width>
-     <height>314</height>
+     <width>509</width>
+     <height>316</height>
     </rect>
    </property>
    <layout class="QFormLayout" name="formLayout">

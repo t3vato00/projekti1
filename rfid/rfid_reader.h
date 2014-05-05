@@ -5,7 +5,7 @@
 #include <qextserial/qextserialport.h>
 #include <rfid/rfid_reader_global.h>
 
-class rfid_reader : public QObject
+class RFID_READER_DLLSHARED_EXPORT rfid_reader : public QObject
 {
     Q_OBJECT
 

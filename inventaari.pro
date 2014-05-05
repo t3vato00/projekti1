@@ -66,6 +66,6 @@ FORMS += \
 INCLUDEPATH += $$PWD/qextserial
 DEPENDPATH += $$PWD/qextserial
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../build-qextserialport-Desktop_Qt_5_2_1_MinGW_32bit-Release/release/ -lQt5ExtSerialPort1
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../build-qextserialport-Desktop_Qt_5_2_1_MinGW_32bit-Release/debug/ -lQt5ExtSerialPort1
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../build-qextserialport-Desktop_Qt_5_2_1_MinGW_32bit-Release/release/ -lQt5ExtSerialPort1 -L$$PWD/../build-rfid-Desktop_Qt_5_2_1_MinGW_32bit-Release/release/ -lrfid_reader_dll
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../build-qextserialport-Desktop_Qt_5_2_1_MinGW_32bit-Release/debug/ -lQt5ExtSerialPort1 -L$$PWD/../build-rfid-Desktop_Qt_5_2_1_MinGW_32bit-Release/release/ -lrfid_reader_dll
 else:unix: LIBS += -L$$PWD/../build-qextserialport -lQt5ExtSerialPort -L$$PWD/../build-rfid -lrfid_reader_dll
