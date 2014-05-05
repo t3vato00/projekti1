@@ -18,31 +18,34 @@ SOURCES += main.cpp \
     ui/mainwindow.cpp \
     ui/mainmenu/mainmenu.cpp \
     ui/login/loginpage.cpp \
-    rfid/rfid_reader.cpp \
     ui/products/product_management.cpp \
     db/products/product_model.cpp \
     ui/sales/sale.cpp \
-    ui/users/user.cpp \
+    ui/users/user_management.cpp \
     db/products/product.cpp \
     db/utilities.cpp \
+	 db/users/login.cpp \
     db/sales/sales_row.cpp \
     db/sales/sales_event.cpp \
-    ui/sales/sales_tracking.cpp
+    ui/sales/sales_tracking.cpp \
+    ui/users/read_card_dialog.cpp
 
 HEADERS  += \
     ui/mainwindow.h \
     ui/mainmenu/mainmenu.h \
     ui/login/loginpage.h \
-    rfid/rfid_reader.h \
     ui/products/product_management.h \
     db/products/product_model.h \
     ui/sales/sale.h \
-    ui/users/user.h \
+    ui/users/user_management.h \
     db/products/product.h \
     db/utilities.h \
+	 db/users/user.h \
+	 db/users/login.h \
     db/sales/sales_row.h \
     db/sales/sales_event.h \
-    ui/sales/sales_tracking.h
+    ui/sales/sales_tracking.h \
+    ui/users/read_card_dialog.h
 
 RESOURCES += \
     resource.qrc
@@ -52,8 +55,9 @@ FORMS += \
     ui/mainmenu/mainmenu.ui \
     ui/login/loginpage.ui \
     ui/sales/sale.ui \
-    ui/users/user.ui \
-    ui/sales/sales_tracking.ui
+    ui/users/user_management.ui \
+    ui/sales/sales_tracking.ui \
+    ui/users/read_card_dialog.ui
 
 
 INCLUDEPATH += $$PWD/qextserial

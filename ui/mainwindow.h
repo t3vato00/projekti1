@@ -7,7 +7,9 @@
 #include "ui/products/product_management.h"
 #include "ui/sales/sale.h"
 #include "ui/sales/sales_tracking.h"
-#include "ui/users/user.h"
+#include "db/users/login.h"
+#include "ui/users/read_card_dialog.h"
+#include "ui/users/user_management.h"
 #include "ui/mainmenu/mainmenu.h"
 
 class MainWindow : public QMainWindow
@@ -17,11 +19,12 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     bool createConnection();
-     user*  kayttajat;
 
 private slots:
+    void login();
+    void logout();
+	 void show_card_dialog( login::read_rfid_status stat );
     void to_mainmenu();
-    void show_toolbar();
 
 signals:
      void to_main_signal(int);
@@ -36,8 +39,11 @@ private:
     mainmenu * mainpage;
     sales_tracking *salestrack;
     product_management *tuote;
+	 user_management*  kayttajat;
+	 read_card_dialog*  card_dialog;
     sale* myynti;
     QStackedWidget *stackedWidget;
+	 int saved_view;
 };
 
 #endif // MAINWINDOW_H
