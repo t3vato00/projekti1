@@ -2,9 +2,11 @@
     <qresource prefix="/">
         <file>images/undo.png</file>
         <file>images/banaani.jpg</file>
-        <file>images/kokis.jpg</file>
         <file>images/daniels.jpg</file>
-        <file>images/pepsi.jpg</file>
         <file>images/twix.jpg</file>
+        <file>images/kokis.jpg</file>
+        <file>images/pepsi.jpg</file>
+        <file>images/x.jpg</file>
+        <file>images/leftarrow.png</file>
     </qresource>
 </RCC>

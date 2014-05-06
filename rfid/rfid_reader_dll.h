@@ -3,7 +3,7 @@
 #include <rfid/rfid_reader_global.h>
 #include <rfid/rfid_reader.h>
 
-class rfid_reader_dll 
+class rfid_reader_dll
 {
 public:
 	static rfid_reader * RFID_READER_DLLSHARED_EXPORT create(QString pPort);

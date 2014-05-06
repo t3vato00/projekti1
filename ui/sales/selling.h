@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QtSql>
+#include <QLabel>
 
 namespace Ui {
 class Selling;
@@ -18,14 +19,25 @@ public:
 
 private:
     Ui::Selling *ui;
+    void set_image_buttons();
+    void set_arrow(QLabel &labelname);
+    void details(QString);
+    void set_user_text(QString);
+    QString current_product;
     int row_Amount;
     QSqlQuery products;
     QSqlQuery cell;
-    void load_products();
-    void add_row_to_list(QString, QString);
+    QTimer* thanks_timer;
 
 private slots:
     void modified(int,int);
+    void on_b_coke_clicked();
+    void on_b_pepsi_clicked();
+    void on_b_daniels_clicked();
+    void on_b_twix_clicked();
+    void on_b_banaani_clicked();
+    void on_pushButton_osta_clicked();
+    void clear_thanks_text();
 };
 
 #endif // SELLING_H
