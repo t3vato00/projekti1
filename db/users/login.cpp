@@ -10,6 +10,7 @@ login::
 login()
 : qcard( "SELECT name, super FROM users WHERE card_id = ?;" )
 {
+    logged_user =  user( "test_user", "0123456789",true );
     qDebug() << "login init";
     reader = rfid_reader_dll::create("/dev/ttyUSB0");
     QObject::connect(reader,&rfid_reader::rfid,this,&login::rfid);

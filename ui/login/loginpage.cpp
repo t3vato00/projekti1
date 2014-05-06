@@ -24,6 +24,6 @@ void
 loginpage::
 fake_login()
 {
-	emit login::singleton().logged_in( user( "test_user", "0123456789" ) );
+    emit login::singleton().logged_in( user( "test_user", "0123456789",true ) );
 }
 

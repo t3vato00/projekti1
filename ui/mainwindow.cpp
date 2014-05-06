@@ -41,8 +41,9 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent)
 	QObject::connect(mainpage, SIGNAL(send_page_index(int)),stackedWidget, SLOT(setCurrentIndex(int)));
 	QObject::connect(this, SIGNAL(to_main_signal(int)),stackedWidget, SLOT(setCurrentIndex(int)));
 
-	//setFixedHeight(800);
-	//setFixedWidth(1200);
+    //setFixedHeight(768);
+    //setFixedWidth(1366);
+    //this->showFullScreen();
 	setCentralWidget(stackedWidget);
 
 	create_actions();
@@ -116,8 +117,8 @@ bool MainWindow::createConnection(){
 	QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
 	db.setHostName("localhost");
 	db.setDatabaseName("inventaari");
-	db.setUserName("inventaari");
-	db.setPassword("asdklielxkjoijdneidkod");
+    db.setUserName("root");
+    db.setPassword("");//asdklielxkjoijdneidkod
 	if (!db.open()) {
 	qDebug() << "Database error occurred";
 	return false;

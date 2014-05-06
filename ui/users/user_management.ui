@@ -21,7 +21,7 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="5" column="4">
-    <widget class="QLineEdit" name="linePass"/>
+    <widget class="QLineEdit" name="lineMoney"/>
    </item>
    <item row="5" column="0" colspan="3">
     <widget class="QLineEdit" name="lineName"/>
@@ -29,7 +29,7 @@
    <item row="3" column="4">
     <widget class="QLabel" name="label_4">
      <property name="text">
-      <string>Password</string>
+      <string>Money</string>
      </property>
     </widget>
    </item>
@@ -39,9 +39,6 @@
       <string>Card ID</string>
      </property>
     </widget>
-   </item>
-   <item row="1" column="0" colspan="6">
-    <widget class="QTableWidget" name="userView"/>
    </item>
    <item row="3" column="0">
     <widget class="QLabel" name="label_2">
@@ -53,7 +50,17 @@
    <item row="5" column="3">
     <widget class="QLineEdit" name="lineID"/>
    </item>
-   <item row="5" column="5">
+   <item row="1" column="0" colspan="7">
+    <widget class="QTableWidget" name="userView"/>
+   </item>
+   <item row="2" column="6">
+    <widget class="QPushButton" name="readCard">
+     <property name="text">
+      <string>Read card</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="6">
     <widget class="QPushButton" name="add_user">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
@@ -63,19 +70,6 @@
      </property>
      <property name="text">
       <string>Add</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="5">
-    <widget class="QPushButton" name="clear">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string>Clear</string>
      </property>
     </widget>
    </item>
@@ -92,10 +86,23 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="5">
-    <widget class="QPushButton" name="readCard">
+   <item row="3" column="6">
+    <widget class="QPushButton" name="clear">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="text">
-      <string>Read card</string>
+      <string>Clear</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="5">
+    <widget class="QCheckBox" name="checkSuper">
+     <property name="text">
+      <string>Super</string>
      </property>
     </widget>
    </item>

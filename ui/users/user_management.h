@@ -42,7 +42,7 @@ private:
     QCryptographicHash * hash;
     int row_amount;
     void load_users();
-    void add_row_to_list(QString, QString, QString);
+    void add_row_to_list(QString, QString, QString, QString);
     QString hash_pass(QString);
     bool stop_timer;
     QTimer * Timer;
