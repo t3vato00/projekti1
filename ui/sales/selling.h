@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QtSql>
 #include <QLabel>
+#include <db/users/user.h>
 
 namespace Ui {
 class Selling;
@@ -22,7 +23,7 @@ private:
     void set_image_buttons();
     void set_arrow(QLabel &labelname);
     void details(QString);
-    void set_user_text(QString);
+    void set_user_text(user u);
     QString current_product;
     int row_Amount;
     QSqlQuery products;
@@ -30,7 +31,7 @@ private:
     QTimer* thanks_timer;
 
 private slots:
-    void modified(int,int);
+	 void on_login(user u);
     void on_b_coke_clicked();
     void on_b_pepsi_clicked();
     void on_b_daniels_clicked();

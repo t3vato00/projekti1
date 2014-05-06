@@ -11,7 +11,7 @@ login()
 : qcard( "SELECT name, super FROM users WHERE card_id = ?;" )
 {
     qDebug() << "login init";
-    reader = rfid_reader_dll::create("COM5");///dev/ttyUSB0
+    reader = rfid_reader_dll::create("/dev/ttyUSB0");
     QObject::connect(reader,&rfid_reader::rfid,this,&login::rfid);
 	QObject::connect(reader,&rfid_reader::norfid,this,&login::norfid);
 	QObject::connect(this,&login::show_card_dialog,[]( read_rfid_status st ) { qDebug() << "card dialog:" << st ; });
@@ -51,6 +51,7 @@ rfid( QString id )
 			QString name = qcard.value(0).toString();
 			bool super = qcard.value(1).toString() == "T";
 			qcard.finish();
+			qDebug() << "login: user" << name;
 			logged_user = user( name, id, super );
 			emit logged_in( logged_user );
 			logged = true;

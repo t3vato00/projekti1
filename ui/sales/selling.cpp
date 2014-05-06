@@ -1,16 +1,18 @@
 #include "selling.h"
 #include "ui_selling.h"
+#include <db/users/login.h>
 #include <QAction>
+#include <QDebug>
 Selling::Selling(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Selling)
 {
     ui->setupUi(this);
-    set_user_text("Pekka Liukko");//----------------------------------------------------------------
     set_image_buttons();
     thanks_timer = new QTimer();
     thanks_timer->setInterval(5000);
     QObject::connect(thanks_timer, SIGNAL(timeout()), this, SLOT(clear_thanks_text()));
+	 QObject::connect(&login::singleton(), &login::logged_in, this, &Selling::on_login);
 }
 
 void Selling::clear_thanks_text()
@@ -42,11 +44,10 @@ void Selling::set_image_buttons()
     ui->b_banaani->setIconSize(banaani.rect().size());
 }
 
-void Selling::modified(int a, int b)
+void Selling::on_login( user u )
 {
-    qDebug() << a << b;
-    cell.prepare("SELECT * from products");
-    cell.exec();
+	 qDebug() << "selling user:" << u.name();
+    set_user_text(u);
 }
 
 Selling::~Selling()
@@ -87,14 +88,14 @@ void Selling::on_b_twix_clicked()   {set_arrow(*ui->l_twix);details("Twix");}
 void Selling::on_b_banaani_clicked(){set_arrow(*ui->l_banaani);details("Banaani");}
 
 
-void Selling::set_user_text(QString nimi)
+void Selling::set_user_text(user u)
 {
-    products.prepare("SELECT user_money FROM users Where name = ?;");
-    products.bindValue(0,nimi);
+    products.prepare("SELECT user_money FROM users Where card_id = ?;");
+    products.bindValue(0,u.card_id());
     products.exec();
     while(products.next())
     {
-        ui->label_user_name->setText(nimi);
+        ui->label_user_name->setText(u.name());
         ui->label_money->setText(products.value(0).toString()+" €");
     }
     products.finish();
@@ -104,19 +105,18 @@ void Selling::set_user_text(QString nimi)
 
 void Selling::on_pushButton_osta_clicked()
 {
-    QString card_number = "9633ADB54C"; //----------------------------------------------------------------
-    QString nimi = "Pekka Liukko";//----------------------------------------------------------------
+	user u = login::singleton().current_user();
     QSqlQuery query;
 
-    query.prepare("UPDATE users SET user_money = user_money-? Where name = ?;");
+    query.prepare("UPDATE users SET user_money = user_money-? Where card_id = ?;");
     query.bindValue(0,ui->label_price->text());
-    query.bindValue(1,nimi);
+    query.bindValue(1,u.card_id());
     query.exec();
     query.finish();
 
     QSqlQuery querys;
     querys.prepare("INSERT INTO sales_event VALUES(Null,?,?,NOW()); SELECT LAST_INSERT_ID();");
-    querys.bindValue(0,card_number);
+    querys.bindValue(0,u.card_id());
     querys.bindValue(1,ui->label_price->text());//QString::number(.toInt(),'f',2));//total price
     querys.exec();
     int sale_event_id;
@@ -136,7 +136,7 @@ void Selling::on_pushButton_osta_clicked()
     que.bindValue(4,ui->l_code->text());
     que.exec();
     que.finish();
-    set_user_text(nimi);
+    set_user_text(u);
 
     ui->l_thanks->setText("Kiitos ostoksesta, Nautinnollisia hetkiä!!");
     thanks_timer->start();
