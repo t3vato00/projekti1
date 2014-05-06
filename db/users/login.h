@@ -42,6 +42,8 @@ private slots:
 
 public:
 	static login & singleton();
+	bool user_logged_in() const;
+	user const & current_user() const;
 
 	void read_rfid( std::function<void(QString)> h );
 

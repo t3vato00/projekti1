@@ -12,6 +12,7 @@ CREATE TABLE products
 ,	name VARCHAR(200) NOT NULL
 ,	price NUMERIC(22,2) NOT NULL
 ,	stock INTEGER NOT NULL
+,	description TEXT NOT NULL
 ,	CONSTRAINT products_pkey PRIMARY KEY (code)
 ,	CONSTRAINT products_name UNIQUE products_name_key (name)
 );
@@ -41,8 +42,8 @@ CREATE TABLE users
 (
 	name VARCHAR(200) NOT NULL
 	, card_id CHAR(10) NOT NULL
-	, user_password VARCHAR(50) NOT NULL
-
+	, super CHAR(1) NOT NULL
+	, user_money DECIMAL(20,2) NOT NULL DEFAULT 50
 );
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON users TO 'inventaari'@'%';

@@ -8,7 +8,7 @@ login * login::inst = nullptr;
 
 login::
 login()
-: qcard( "SELECT name FROM users WHERE card_id = ?;" )
+: qcard( "SELECT name, super FROM users WHERE card_id = ?;" )
 {
 	qDebug() << "login init";
 	reader = rfid_reader_dll::create("/dev/ttyUSB0");
@@ -49,8 +49,9 @@ rfid( QString id )
 			}
 
 			QString name = qcard.value(0).toString();
+			bool super = qcard.value(1).toString() == "T";
 			qcard.finish();
-			logged_user = user( name, id );
+			logged_user = user( name, id, super );
 			emit logged_in( logged_user );
 			logged = true;
 		}
@@ -129,5 +130,19 @@ interrupt_read_rfid()
 	emit logged_out( logged_user );
 
 	return true;
+}
+
+bool
+login::
+user_logged_in() const
+{
+	return logged;
+}
+
+user const &
+login::
+current_user() const
+{
+	return logged_user;
 }
 

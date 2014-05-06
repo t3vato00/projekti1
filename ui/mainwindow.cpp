@@ -73,14 +73,19 @@ show_card_dialog( login::read_rfid_status stat )
 
 void MainWindow::login()
 {
-	editToolBar->addAction(ToMainmenuAct);
-	emit to_main_signal(1);
+	if( login::singleton().current_user().super() )
+	{
+		editToolBar->addAction(ToMainmenuAct);
+		emit stackedWidget->setCurrentIndex( 1 );
+	}
+	else
+		emit stackedWidget->setCurrentIndex( 6 );
 }
 
 void MainWindow::logout()
 {
 	editToolBar->clear();
-	emit to_main_signal(0);
+	emit stackedWidget->setCurrentIndex( 0 );
 }
 
 
