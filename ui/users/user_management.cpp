@@ -45,7 +45,7 @@ user_management::user_management(QWidget *parent) :
 void user_management::load_users()
 {
     QSqlQuery query;
-    query.prepare("SELECT * FROM users;");
+    query.prepare("SELECT name, card_id, user_money, super FROM users;");
     query.exec();
     while(query.next()){
         qDebug() << query.value(0).toString();
