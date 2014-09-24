@@ -71,7 +71,7 @@ rfid( QString id )
 	{
 		if( id == logged_user.card_id() )
 		{
-			read_rfid_handler( id );
+			read_rfid_handler( read_id );
 			read_stat = not_reading;
 			emit show_card_dialog(read_stat);
 		}
